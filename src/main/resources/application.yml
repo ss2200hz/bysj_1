@@ -4,9 +4,9 @@
 #    active: dev
 
 #公共配置与profiles选择无关
-#mybatis:
-#  typeAliasesPackage: com.example.bysj_1
-#  mapperLocations: classpath:mapper/*.xml
+mybatis:
+  typeAliasesPackage: com.example.bysj_1.dao
+  mapperLocations: classpath:mapper/*.xml
 
 
 #开发配置
