@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 @Mapper
 public interface DemoUserMap {
-    @Select("select * from user")
+    @Select("select name as name from user")
     List<User> getUsers();
 }
