@@ -18,7 +18,6 @@ public class MyBatisUtils {
             reader = Resources.getResourceAsReader(cfg);
             factory = new SqlSessionFactoryBuilder().build(reader);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             System.out.println("找不到文件！");
             e.printStackTrace();
         }
