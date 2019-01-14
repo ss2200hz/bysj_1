@@ -12,7 +12,7 @@ public class DemoController {
     DemoUserService demoUserService = new DemoUserService();
     @RequestMapping("/test1")
     public String doTest(){
-        return demoUserService.addUser();
+        return demoUserService.getUsername();
     }
 
     @RequestMapping("/test2")
