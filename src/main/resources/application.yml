@@ -20,6 +20,18 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
+  thymeleaf:
+   # mode: LEGACYHTML5
+    mode: HTML
+    cache: false #关闭缓存，可查看实时页面
+    check-template: true
+    check-template-location: true
+    content-type: text/html
+    enabled: true
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    suffix: .html
+
 
 server:
   port: 8090
