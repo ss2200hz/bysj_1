@@ -5,14 +5,13 @@ import com.example.bysj_1.service.DemoUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/html")
 public class DemoController {
-    DemoUserService demoUserService = new DemoUserService();
+    private DemoUserService demoUserService = new DemoUserService();
     @RequestMapping("/test1")
     public String doTest(){
         return demoUserService.getUsername();
@@ -26,6 +25,6 @@ public class DemoController {
     @RequestMapping("/hello")
     public String hello(Model model){
         model.addAttribute("name","world");
-        return "hello";
+        return "template/hello";
     }
 }

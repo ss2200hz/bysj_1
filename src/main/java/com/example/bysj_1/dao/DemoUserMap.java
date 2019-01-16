@@ -14,26 +14,4 @@ import java.util.List;
 public interface DemoUserMap {
     @Select("select name as name from user")
     List<User> getUsers();
-
-    /**
-     * 新增角色
-     * @param user
-     */
-    @Insert("insert into user_" +
-            "(userid," +
-            " loginname," +
-            " password," +
-            " name," +
-            " roleid," +
-            " email," +
-            " phone)" +
-            " values (" +
-            " #{userid}," +
-            " #{loginname}," +
-            " #{password}," +
-            " #{name}," +
-            " #{roleid}," +
-            " #{email}," +
-            " #{phone})")
-    void addUser(User user);
 }

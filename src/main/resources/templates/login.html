@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>请登录</title>
+</head>
+<body>
+    <div align="center">
+        <img class="img-responsive" th:src="@{/pic/saber.jpg}"/>
+    </div>
+    <div align="center">
+        <table>
+            <tr>
+                <td>用户名：</td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td>密码：</td>
+                <td><input type="text" ></td>
+            </tr>
+            <tr>
+                <td><input type="button" onclick="signup" value="注册"></td>
+                <td><input type="submit"></td>
+            </tr>
+        </table>
+    </div>
+</body>

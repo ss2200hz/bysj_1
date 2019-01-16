@@ -12,7 +12,8 @@ mybatis:
 #开发配置
 spring:
 #  profiles: dev
-
+  mvc:
+      static-path-pattern: /static/**
   datasource:
     url: jdbc:mysql://localhost:3306/bysj?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
@@ -22,7 +23,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
   thymeleaf:
    # mode: LEGACYHTML5
-    mode: HTML
+    mode: HTML5
     cache: false #关闭缓存，可查看实时页面
     check-template: true
     check-template-location: true
