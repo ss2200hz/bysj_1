@@ -12,8 +12,6 @@ mybatis:
 #开发配置
 spring:
 #  profiles: dev
-  mvc:
-      static-path-pattern: /static/**
   datasource:
     url: jdbc:mysql://localhost:3306/bysj?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root

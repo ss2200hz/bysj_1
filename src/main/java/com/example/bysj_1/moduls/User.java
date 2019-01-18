@@ -6,6 +6,11 @@ import java.util.Date;
  * 用户信息数据模型
  */
 public class User {
+
+    /**
+     * 用户id
+     */
+    private String userid;
     /**
      * 登录名
      */
@@ -34,6 +39,14 @@ public class User {
      * 注册时间
      */
     private Date signupDate;
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
 
     public Date getSignupDate() {
         return signupDate;

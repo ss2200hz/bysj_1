@@ -13,23 +13,12 @@ import java.util.List;
 @Service
 public class DemoUserService {
 
-    SqlSession sqlSession = MyBatisUtils.getSession(true);
-    DemoUserMap demoUserMap = sqlSession.getMapper(DemoUserMap.class);
-
-    public String getUsername(){
-        String name = "";
-        List<User> list = demoUserMap.getUsers();
-        if(!CollectionUtils.isEmpty(list)){
-            User user = list.get(0);
-            name = user.getName();
-        }
-        return name;
-    }
-
+    private SqlSession sqlSession = MyBatisUtils.getSession(true);
+    private DemoUserMap demoUserMap = sqlSession.getMapper(DemoUserMap.class);
 
     public List getUsers(){
         List<User> list = demoUserMap.getUsers();
-        List<String> nameList = new ArrayList();
+        List<String> nameList = new ArrayList<>();
         if(!CollectionUtils.isEmpty(list)){
             for(User user : list){
                 String name = user.getName();
@@ -38,4 +27,5 @@ public class DemoUserService {
         }
         return nameList;
     }
+
 }
