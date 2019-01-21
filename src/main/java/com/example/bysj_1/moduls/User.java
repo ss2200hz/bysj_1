@@ -1,6 +1,6 @@
 package com.example.bysj_1.moduls;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * 用户信息数据模型
@@ -38,7 +38,7 @@ public class User {
     /**
      * 注册时间
      */
-    private Date signupDate;
+    private LocalDate signupDate;
 
     public String getUserid() {
         return userid;
@@ -48,11 +48,11 @@ public class User {
         this.userid = userid;
     }
 
-    public Date getSignupDate() {
+    public LocalDate getSignupDate() {
         return signupDate;
     }
 
-    public void setSignupDate(Date signupDate) {
+    public void setSignupDate(LocalDate signupDate) {
         this.signupDate = signupDate;
     }
 

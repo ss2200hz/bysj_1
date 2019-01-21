@@ -19,6 +19,8 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
+  resources:
+    add-mappings: true
   thymeleaf:
    # mode: LEGACYHTML5
     mode: HTML5
@@ -28,7 +30,6 @@ spring:
     content-type: text/html
     enabled: true
     encoding: UTF-8
-    prefix: classpath:/templates/
     suffix: .html
 
 

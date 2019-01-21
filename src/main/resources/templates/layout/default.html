@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0,user-scalable=no"/>
+    <link th:href="@{/webjars/materializecss/css/materialize.css}"
+          type="text/css"
+          rel="stylesheet" media="screen,projection"/>
+</head>
+<body>
+<section layout:fragment="content">
+    <p>Page content goes here</p>
+</section>
+<footer>
+    <p>My footer</p>
+    <p layout:fragment="custom-footer">Custom footer here</p>
+</footer>
+<script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/dist/jquery.js}"></script>
+<script src="webjars/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/webjars/materializecss/js/materialize.min.js}"></script>
+</body>

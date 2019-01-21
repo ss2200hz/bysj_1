@@ -59,7 +59,15 @@
 			<version>1.9.22</version>
 		</dependency>
 
-        <dependency>
+		<!-- https://mvnrepository.com/artifact/org.webjars/webjars-locator -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>webjars-locator</artifactId>
+			<version>0.34</version>
+		</dependency>
+
+
+		<dependency>
             <groupId>org.webjars.bower</groupId>
             <artifactId>jquery</artifactId>
             <version>2.2.4</version>
@@ -72,14 +80,20 @@
 			<version>1.0.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.3.7-1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>org.springframework.boot</groupId>-->
+				<!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+			<!--</plugin>-->
 		</plugins>
 		<resources>
 			<resource>
@@ -91,6 +105,7 @@
 				</includes>
 				<filtering>false</filtering>
 			</resource>
+
 			<resource>
 				<directory>src/main/resources</directory>
 				<includes>
@@ -99,6 +114,11 @@
 					<include>**/*.xml</include>
 				</includes>
 				<filtering>false</filtering>
+			</resource>
+
+			<resource>
+				<directory>${project.basedir}/src/main/resources</directory>
+				<targetPath>${project.build.outputDirectory}/META-INF/resources</targetPath>
 			</resource>
 		</resources>
 	</build>

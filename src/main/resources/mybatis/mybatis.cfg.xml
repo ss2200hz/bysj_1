@@ -28,8 +28,6 @@
     </environments>
 
     <mappers>
-        <!-- <mapper resource="org/mapper/ten/proxy/UserMapper.xml"/> -->
-        <mapper class="com.example.bysj_1.dao.DemoUserMap"/>
         <mapper class="com.example.bysj_1.dao.UserMapper"/>
     </mappers>
 </configuration>
