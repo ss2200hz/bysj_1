@@ -19,9 +19,16 @@ public class UserService {
     public User getUser(User user) {
         List<User> userList = userMapper.checkUser(user.getLoginname());
         if (CollectionUtils.isEmpty(userList)) {
-//            result = UserConsts.USER_EMPTY;
             return new User();
         }
-        return userList.get(0);
+        if(userList.size()>0){
+            throw new RuntimeException("");
+        }
+        User user1 = userList.get(0);
+        if(StringUtils.equals(user.getPassword(),user1.getPassword())){
+            return user1;
+        }else{
+            throw new RuntimeException("密码错误");
+        }
     }
 }

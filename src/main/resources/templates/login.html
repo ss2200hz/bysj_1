@@ -4,12 +4,12 @@
       layout:decorator="layout/default">
 <head>
     <title>请登录</title>
-    <!--<link th:href="@{/webjars/materializecss/css/materialize.css}"-->
-          <!--type="text/css"-->
-          <!--rel="stylesheet" media="screen,projection"/>-->
-    <!--<script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/dist/jquery.js}"></script>-->
-    <!--<script src="webjars/jquery/1.11.1/jquery.min.js"></script>-->
-    <!--<script type="text/javascript" th:src="@{/webjars/materializecss/js/materialize.min.js}"></script>-->
+    <link th:href="@{/webjars/materializecss/css/materialize.css}"
+          type="text/css"
+          rel="stylesheet" media="screen,projection"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/dist/jquery.js}"></script>
+    <script src="webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/webjars/materializecss/js/materialize.min.js}"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -17,16 +17,16 @@
     <img class="img-responsive" th:src="@{/pic/saber.jpg}"/>
 </div>
 <form class="col s12" action="#" th:action="@{/login}" th:object="${user}" method="post">
-    <div class="row center">
+    <div class="row center" layout:fragment="content">
         <div class="input-field col s6 offset-s3">
-            <input placeholder="请输入用户名：" id="name" th:field="*{loginname}" type="text" class="validate">
+            <input  id="name" th:field="*{loginname}" type="text" class="validate">
             <label for="name">用户名：</label>
         </div>
     </div>
     <div class="row center">
         <div class="input-field col s6 offset-s3">
-            <!--<label for="password">密码：</label>-->
-            <input placeholder="请输入密码：" id="password" th:field="*{password}" type="password">
+            <input id="password" th:field="*{password}" type="password">
+            <label for="password">密码：</label>
         </div>
     </div>
     <div class="row center">
