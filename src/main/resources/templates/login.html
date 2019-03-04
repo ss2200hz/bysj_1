@@ -16,7 +16,7 @@
 <div align="center">
     <img class="img-responsive" th:src="@{/pic/saber.jpg}"/>
 </div>
-<form class="col s12" action="#" th:action="@{/login}" th:object="${user}" method="post">
+<form class="col s12" th:action="@{/checkUser}" th:object="${user}" method="POST">
     <div class="row center" layout:fragment="content">
         <div class="input-field col s6 offset-s3">
             <input  id="name" th:field="*{loginname}" type="text" class="validate">

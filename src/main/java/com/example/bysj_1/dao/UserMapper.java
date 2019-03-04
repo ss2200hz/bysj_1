@@ -41,5 +41,5 @@ public interface UserMapper {
             " name as name" +
             " from user_ " +
             " where loginname=#{loginname} ")
-    List<User> checkUser(@Param("loginname")String userName);
+    List<User> findUserById(@Param("loginname")String userName);
 }
