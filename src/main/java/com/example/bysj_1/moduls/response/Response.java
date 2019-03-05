@@ -34,6 +34,10 @@ public class Response<T> {
         this.status = 200;
     }
 
+    public Response(int status) {
+        this.status = status;
+    }
+
     public Response(int status, String msg) {
         this.status = status;
         this.msg = msg;

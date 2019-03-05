@@ -1,10 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
 <head>
-    <meta charset="UTF-8">
-    <title>注册</title>
+    <title>用户注册</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link th:href="@{/webjars/materializecss/css/materialize.css}"
+          type="text/css"
+          rel="stylesheet" media="screen,projection"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/dist/jquery.js}"></script>
+    <script src="webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/webjars/materializecss/js/materialize.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/login.js}"></script>
 </head>
 <body>
-
+<div layout:decorator="center">
+    <div align="center">
+        欢迎使用***web实验室管理系统
+    </div>
+    <form class="col s12" th:action="@{}" th:object="${user}" method="post">
+        <div class="row center" layout:fragment="content">
+            <div class="input-field col s6 offset-s3">
+                <input type="radio" th:field="${user.roleid}" name="role" value="superadmin">实验室管理员
+                <input type="radio" th:field="${user.roleid}" name="role" value="teacher">教师
+            </div>
+            <div class="input-field col s6 offset-s3">
+                <i class="material-icons prefix">account_circle</i>
+                <input id="name" th:field="${user.loginname}" type="text" class="validate">
+                <label for="name">请输入用户名：</label>
+            </div>
+        </div>
+        <div class="row center" layout:fragment="content">
+            <div class="input-field col s6 offset-s3">
+                <i class="material-icons prefix">lock_outline</i>
+                <input id="password" th:field="*{password}" type="password">
+                <label for="password">请输入密码：</label>
+            </div>
+            <div class="input-field col s6 offset-s3">
+                <i class="material-icons prefix">lock_outline</i>
+                <input id="password_again" type="password">
+                <label for="password">请再次输入密码：</label>
+            </div>
+        </div>
+    </form>
+</div>
 </body>
 </html>

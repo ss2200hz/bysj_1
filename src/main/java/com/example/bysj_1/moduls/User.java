@@ -1,5 +1,7 @@
 package com.example.bysj_1.moduls;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 
 /**
@@ -38,6 +40,7 @@ public class User {
     /**
      * 注册时间
      */
+    @DateTimeFormat(pattern = "yyyy-mm-dd hh24:mm:ss")
     private LocalDate signupDate;
 
     public String getUserid() {

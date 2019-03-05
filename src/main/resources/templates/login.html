@@ -4,36 +4,49 @@
       layout:decorator="layout/default">
 <head>
     <title>请登录</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link th:href="@{/webjars/materializecss/css/materialize.css}"
           type="text/css"
           rel="stylesheet" media="screen,projection"/>
     <script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/dist/jquery.js}"></script>
     <script src="webjars/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript" th:src="@{/webjars/materializecss/js/materialize.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/login.js}"></script>
 </head>
-<body>
+<body onload="checkUser(${logInfo})">
 <div layout:fragment="content">
-<div align="center">
-    <img class="img-responsive" th:src="@{/pic/saber.jpg}"/>
-</div>
-<form class="col s12" th:action="@{/checkUser}" th:object="${user}" method="POST">
-    <div class="row center" layout:fragment="content">
-        <div class="input-field col s6 offset-s3">
-            <input  id="name" th:field="*{loginname}" type="text" class="validate">
-            <label for="name">用户名：</label>
+    <div align="center">
+        <img class="img-responsive" th:src="@{/pic/saber.jpg}"/>
+    </div>
+    <form class="col s12" th:action="@{/checkUser}" th:object="${user}" method="POST">
+        <div class="row center" layout:fragment="content">
+            <div class="input-field col s6 offset-s3">
+                <i class="material-icons prefix">account_circle</i>
+                <input id="name" th:field="*{loginname}" type="text" class="validate">
+                <label for="name">用户名（工号）：</label>
+            </div>
         </div>
-    </div>
-    <div class="row center">
-        <div class="input-field col s6 offset-s3">
-            <input id="password" th:field="*{password}" type="password">
-            <label for="password">密码：</label>
+        <div class="row center">
+            <div class="input-field col s6 offset-s3">
+                <i class="material-icons prefix">lock_outline</i>
+                <input id="password" th:field="*{password}" type="password">
+                <label for="password">密码：</label>
+            </div>
         </div>
-    </div>
-    <div class="row center">
-        <td><input type="button" onclick="signup" value="注册"></td>
-        <button class="btn waves-effect waves-light" type="submit" name="login">登录
-            <i class="mdi-content-send right"></i></button>
-    </div>
-</form>
+        <div class="row center">
+            <table border="" style="align:center;">
+                <tr >
+                    <td></td>
+                    <th colspan="3">
+                        <a class="" href="/singup" name="singup">没有账户？请注册</a>
+                    </th>
+                    <th>
+                        <button class="btn waves-effect waves-light" type="submit" name="login">登录
+                            <i class="mdi-content-send right"></i></button>
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </form>
 </div>
 </body>

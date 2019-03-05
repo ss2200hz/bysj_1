@@ -13,6 +13,16 @@ public class UserSession implements Serializable {
     private static final long serializableUId = 888L;
     private String userName;
 
+    private String userRole;
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
     public String getUserName() {
         return userName;
     }

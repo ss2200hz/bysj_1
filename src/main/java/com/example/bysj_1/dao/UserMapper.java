@@ -42,4 +42,13 @@ public interface UserMapper {
             " from user_ " +
             " where loginname=#{loginname} ")
     List<User> findUserById(@Param("loginname")String userName);
+
+    /**
+     * 找出所有用户id,由大到小排列
+     */
+    @Select("select" +
+            " userid" +
+            " from user_" +
+            " order by userid desc")
+    List<String> findAllUserId();
 }

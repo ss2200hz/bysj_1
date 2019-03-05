@@ -7,6 +7,9 @@
     <link th:href="@{/webjars/materializecss/css/materialize.css}"
           type="text/css"
           rel="stylesheet" media="screen,projection"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/dist/jquery.js}"></script>
+    <script src="webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/webjars/materializecss/js/materialize.min.js}"></script>
 </head>
 <body>
 <section layout:fragment="content">
@@ -16,7 +19,4 @@
     <p>My footer</p>
     <p layout:fragment="custom-footer">Custom footer here</p>
 </footer>
-<script type="text/javascript" th:src="@{/webjars/jquery/2.2.4/dist/jquery.js}"></script>
-<script src="webjars/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript" th:src="@{/webjars/materializecss/js/materialize.min.js}"></script>
 </body>
