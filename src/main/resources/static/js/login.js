@@ -5,9 +5,16 @@ function checkUser(logInfo){
 }
 
 function signup(){
-//    alert("123");
     $.ajax({
     url:"/singup",
     type:"post",
     async:false});
+}
+
+function checkPassword(){
+    var pwd = document.getelementbyid("password");
+    var pwdAgain = document.getelementbyid("password_again");
+    if(pwd == pwdAgain){
+        alert("123123");
+    }
 }

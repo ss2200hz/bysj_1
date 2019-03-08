@@ -65,7 +65,7 @@ public class LoginController {
      * @return
      */
     @RequestMapping(value = "/singup")
-    public String singup(){
+    public String singup(User user){
         return "/singup";
     }
 

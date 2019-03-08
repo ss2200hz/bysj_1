@@ -50,7 +50,4 @@ public class UserService {
         userMapper.addUser(user);
         return new Response<>();
     }
-    public HttpSession getUserSession(){
-        return userSession;
-    }
 }
