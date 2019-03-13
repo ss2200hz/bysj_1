@@ -14,15 +14,13 @@ public interface UserMapper {
      * 新增角色
      */
     @Insert("insert into user_ " +
-            "(userid," +
-            " loginname," +
+            "(loginname," +
             " password," +
             " name," +
             " roleid," +
             " email," +
             " phone)" +
             " values (" +
-            " #{userid}," +
             " #{loginname}," +
             " #{password}," +
             " #{name}," +
@@ -35,7 +33,6 @@ public interface UserMapper {
      * 查询用户
      */
     @Select("select " +
-            " userid as userid," +
             " loginname as loginname," +
             " password as password ," +
             " name as name" +
@@ -44,11 +41,11 @@ public interface UserMapper {
     List<User> findUserById(@Param("loginname")String userName);
 
     /**
-     * 找出所有用户id,由大到小排列
+     * 是否为本校教师
      */
-    @Select("select" +
-            " userid" +
-            " from user_" +
-            " order by userid desc")
-    List<String> findAllUserId();
+    @Select(" select" +
+            " idcard" +
+            " from teacher" +
+            " where idcard=#{loginname}")
+    List<String> isUserInTeacher(User user);
 }

@@ -1,8 +1,6 @@
 package com.example.bysj_1.controllers;
 
 import com.example.bysj_1.moduls.User;
-import com.example.bysj_1.moduls.UserSession;
-import com.example.bysj_1.moduls.response.Response;
 import com.example.bysj_1.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import static com.example.bysj_1.service.UserService.userSession;
 
@@ -40,12 +37,13 @@ public class LoginController {
     public String checkUser(HttpServletRequest request,@ModelAttribute("user") User user,Model model){
         if(userService.checkLogin(user)){
             userSession = request.getSession();
-            userSession.setAttribute("username",user.getLoginname());
+            userSession.setAttribute("user",user);
+            System.out.println(userSession.getId());
             model.addAttribute("name",userSession.getAttribute("username"));
             model.addAttribute("logInfo",true);
             return this.index(model);
         }else{
-            model.addAttribute("error","密码错误");
+            model.addAttribute("logInfo",false);
             return "/login";
         }
     }
@@ -70,11 +68,15 @@ public class LoginController {
     }
 
     /**
-     * 新增用户
+     * 新用户注册
      * @return
      */
     @RequestMapping(value = "/inseruser",method = RequestMethod.POST)
-    public Response insertUser(@ModelAttribute("user")User user){
-        return userService.insertUser(user);
+    public String insertUser(@ModelAttribute("user")User user){
+        if(userService.insertUser(user)){
+            return "/login";
+        }else{
+            return "/inseruser";
+        }
     }
 }

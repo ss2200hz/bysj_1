@@ -5,7 +5,7 @@ public class Response<T> {
     /**
      * 成功状态码
      */
-    public final static int SUCCESS_STATUS = 666;
+    public final static int SUCCESS_STATUS = 200;
 
     /**
      * 服务端错误状态码

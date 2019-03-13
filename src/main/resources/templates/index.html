@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
 <head>
-    <title>Hello World!</title>
+    <title>欢迎使用***web实验室管理系统</title>
+    <script type="text/javascript" th:src="@{/js/login.js}"></script>
 </head>
 <body>
-<!--/*@thymesVar id="name" type="java.lang.String"*/-->
-<p th:text="'Hello, '+${name}" ></p>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="input-field col s6">
+            <i class="material-icons prefix">account_circle</i>
+            <input id="name" type="text" class="validate">
+            <label for="name">测试数据</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s6 push-s2">
+            <button class="btn waves-effect waves-light" onclick="demo()">确定
+                <i class="mdi-content-send right"></i></button>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -36,18 +36,20 @@ public class UserService {
         }
     }
 
-    public Response<String> insertUser(User user){
+    public boolean insertUser(User user){
         String userName = user.getLoginname();
+        //校验是否有重复
         List<User> list = userMapper.findUserById(userName);
-        if(StringUtils.isEmpty(user.getPassword())){
-            return new Response(Response.FORMAT_ERROR_STATUS);
+        if(StringUtils.isEmpty(user.getPassword()) || !CollectionUtils.isEmpty(list)){
+            return false;
         }
-        if(!CollectionUtils.isEmpty(list)){
-            return new Response<String>(Response.FORMAT_ERROR_STATUS,"用户名重复！");
+        //校验是否本校教师
+        List<String> list1 = userMapper.isUserInTeacher(user);
+        if(CollectionUtils.isEmpty(list1)){
+            return false;
         }
         user.setSignupDate(LocalDate.now());
-        user.setUserid(Integer.parseInt(userMapper.findAllUserId().get(0))+1+"");
         userMapper.addUser(user);
-        return new Response<>();
+        return true;
     }
 }
