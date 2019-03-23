@@ -99,8 +99,8 @@ public class LoginController {
      * @return
      */
     @RequestMapping("/userInfo")
-    public HashMap getUserInfo(HttpServletRequest request) {
-        HashMap map = new HashMap();
+    public HashMap<String,Object> getUserInfo(HttpServletRequest request) {
+        HashMap<String,Object> map = new HashMap();
         try {
             User user = (User) request.getSession().getAttribute("user");
             String userId = user.getUserid();

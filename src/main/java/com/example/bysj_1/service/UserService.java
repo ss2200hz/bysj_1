@@ -51,8 +51,8 @@ public class UserService {
         return true;
     }
 
-    public HashMap getUserInfo(String userId) {
-        HashMap result = new HashMap();
+    public HashMap<String,Object> getUserInfo(String userId) {
+        HashMap<String,Object> result = new HashMap();
         User user = userMapper.getUserInfoById(userId);
         result.put("username",user.getName());
         result.put("idCard",user.getLoginname());
