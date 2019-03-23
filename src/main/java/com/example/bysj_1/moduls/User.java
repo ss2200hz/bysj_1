@@ -30,6 +30,10 @@ public class User {
      */
     private String roleid;
     /**
+     * 所教课程
+     */
+    private String classNo;
+    /**
      * 电子邮件
      */
     private String email;
@@ -59,6 +63,13 @@ public class User {
         this.signupDate = signupDate;
     }
 
+    public String getClassNo() {
+        return classNo;
+    }
+
+    public void setClassNo(String classNo) {
+        this.classNo = classNo;
+    }
 
     public String getLoginname() {
         return loginname;

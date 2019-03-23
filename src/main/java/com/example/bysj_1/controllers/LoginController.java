@@ -1,5 +1,6 @@
 package com.example.bysj_1.controllers;
 
+import com.example.bysj_1.moduls.PeopleCount;
 import com.example.bysj_1.moduls.User;
 import com.example.bysj_1.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -10,11 +11,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.example.bysj_1.service.UserService.userSession;
 
 @Controller
 public class LoginController {
     private UserService userService = new UserService();
+    PeopleCount peopleCount = PeopleCount.getInstence();
 
     /**
      * 登录页面
@@ -35,14 +40,16 @@ public class LoginController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/checkUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/checkuser", method = RequestMethod.POST)
     public String checkUser(HttpServletRequest request, @ModelAttribute("user") User user, Model model) {
-        if (userService.checkLogin(user)) {
+        User user1 = userService.checkLogin(user);
+        if (user1 != null) {
             userSession = request.getSession();
-            userSession.setAttribute("user", user);
-            System.out.println(userSession.getId());
-            model.addAttribute("name", userSession.getAttribute("username"));
+            userSession.setAttribute("user", user1);
+            model.addAttribute("roleid", user1.getRoleid());
+            model.addAttribute("name", user1.getName());
             model.addAttribute("logInfo", true);
+            peopleCount.loginCount++;
             return "/index";
         } else {
             model.addAttribute("logInfo", false);
@@ -58,6 +65,7 @@ public class LoginController {
      */
     @RequestMapping("/index")
     public String index(Model model) {
+        System.out.println(peopleCount.loginCount);
         return "/index";
     }
 
@@ -83,5 +91,25 @@ public class LoginController {
         } else {
             return "/inseruser";
         }
+    }
+
+    /**
+     * 获取用户信息
+     * @param request
+     * @return
+     */
+    @RequestMapping("/userInfo")
+    public HashMap getUserInfo(HttpServletRequest request) {
+        HashMap map = new HashMap();
+        try {
+            User user = (User) request.getSession().getAttribute("user");
+            String userId = user.getUserid();
+            map = userService.getUserInfo(userId);
+        } catch (ClassCastException e) {
+            map.put("errorInfo","Can not find user");
+            e.printStackTrace();
+        }
+        System.out.println(map);
+        return map;
     }
 }
