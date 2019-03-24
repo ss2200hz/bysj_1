@@ -17,14 +17,11 @@ import javax.servlet.http.HttpSession;
 public class AppointmentController {
     private AppointmentService appointmentService = new AppointmentService();
 
-//    @RequestMapping(value = "/laboratory",method = RequestMethod.GET)
-//    public String appointLaboratory(HttpServletRequest request){
-//        HttpSession session = request.getSession();
-//        System.out.print(session.getId());
-//        return "/appointment";
-//    }
-    @RequestMapping("/userinfo")
-    public String userinfo(){
-        return "/appointment/appointment";
+    @RequestMapping(value = "/laboratory",method = RequestMethod.GET)
+    public String appointLaboratory(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        System.out.print(session.getId());
+        return "/appointment";
     }
+
 }

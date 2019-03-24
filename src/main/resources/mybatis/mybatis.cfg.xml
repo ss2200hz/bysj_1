@@ -29,5 +29,7 @@
 
     <mappers>
         <mapper class="com.example.bysj_1.dao.UserMapper"/>
+        <mapper class="com.example.bysj_1.dao.ClassMapper"/>
+        <mapper class="com.example.bysj_1.dao.LaboratoryMapper"/>
     </mappers>
 </configuration>

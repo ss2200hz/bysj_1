@@ -14,19 +14,7 @@ function showDiv(str){
     $("#userInfo").hide();
     $("#labInfo").hide();
     $("#classInfo").hide();
+    $("#"+str).load("/myInfo");
     $("#"+str).show();
-    $("#"+str).load("appointment/userinfo");
 }
 
-function getUserInfo(){
-    $.ajax({
-            url:'/userInfo',
-            type:'get',
-            success:function(jso){
-                showTbDiv(jso);
-            }});
-}
-
-function showTbDiv(jso){
-    alert(jso);
-}

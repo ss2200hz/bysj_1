@@ -56,8 +56,8 @@ public interface UserMapper {
      * @return
      */
     @Select(" select " +
-            " idcard as idcard," +
-            " name," +
+            " idcard as loginname," +
+            " name as name," +
             " class_no as classNo," +
             " phone as phone," +
             " email as email," +

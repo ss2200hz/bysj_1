@@ -92,24 +92,4 @@ public class LoginController {
             return "/inseruser";
         }
     }
-
-    /**
-     * 获取用户信息
-     * @param request
-     * @return
-     */
-    @RequestMapping("/userInfo")
-    public HashMap<String,Object> getUserInfo(HttpServletRequest request) {
-        HashMap<String,Object> map = new HashMap();
-        try {
-            User user = (User) request.getSession().getAttribute("user");
-            String userId = user.getUserid();
-            map = userService.getUserInfo(userId);
-        } catch (ClassCastException e) {
-            map.put("errorInfo","Can not find user");
-            e.printStackTrace();
-        }
-        System.out.println(map);
-        return map;
-    }
 }
