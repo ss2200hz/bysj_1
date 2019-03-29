@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
  * 预约服务类
  */
 @Service
-public class AppointmentService {
+public class LaboratoryService {
     public Response doAppointment(){
         return null;
     }

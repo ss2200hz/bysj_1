@@ -1,10 +1,9 @@
 package com.example.bysj_1.controllers;
 
-import com.example.bysj_1.service.AppointmentService;
+import com.example.bysj_1.service.LaboratoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,8 +13,8 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping(value = "/appointment")
-public class AppointmentController {
-    private AppointmentService appointmentService = new AppointmentService();
+public class LaboratoryController {
+    private LaboratoryService laboratoryService = new LaboratoryService();
 
     @RequestMapping(value = "/laboratory",method = RequestMethod.GET)
     public String appointLaboratory(HttpServletRequest request){

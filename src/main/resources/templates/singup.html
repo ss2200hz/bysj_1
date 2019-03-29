@@ -18,15 +18,23 @@
     <div class="container">
         <form th:action="@{/inseruser}" th:object="${user}" method="post">
             <div class="container">
-                <div><p>你好，请注册</p></div>
+                <nav class="nav-extended" style="background-color:#ffcdd2">
+                    <div class="nav-wrapper">
+                        <a href="#" class="brand-logo center">请注册</a>
+                    </div>
+                </nav>
                 <div class="row center">
                     <!--<div class="input-field col s6">-->
-                        <input class="with-gap" id="manager" type="radio" th:field="${user.roleid}" name="group1"
-                               value="superadmin"/>
-                        <label for="manager">实验室管理员</label>
-                        <input class="with-gap" id="teacher" type="radio" th:field="${user.roleid}" name="group1"
-                               value="teacher"/>
-                        <label for="teacher">教师</label>
+                    <!--<input class="with-gap" id="manager" type="radio" th:field="${user.roleid}" name="group1"-->
+                    <!--value="superadmin"/>-->
+                    <!--<label for="manager">实验室管理员</label>-->
+                    <!--<input class="with-gap" id="teacher" type="radio" th:field="${user.roleid}" name="group1"-->
+                    <!--value="teacher"/>-->
+                    <!--<label for="teacher">教师</label>-->
+                    <!--</div>-->
+                    <!--<div class="input-field col s6">-->
+                        <!--<span class="new badge red">教师</span>-->
+                        <!--<span class="new badge blue">学生</span>-->
                     <!--</div>-->
                     <div class="input-field col s6">
                         <i class="material-icons prefix">account_circle</i>

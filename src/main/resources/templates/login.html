@@ -12,6 +12,11 @@
     <!--<img class="img-responsive" th:src="@{/pic/saber.jpg}"/>-->
     <!--</div>-->
     <p></p>
+    <nav class="nav-extended" style="background-color:blue">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">欢迎使用</a>
+        </div>
+    </nav>
     <form class="col s12" th:action="@{/checkuser}" th:object="${user}" method="POST">
         <div class="row center">
             <div class="input-field col s6 offset-s3">
@@ -37,6 +42,5 @@
             </div>
         </div>
     </form>
-    <button onclick="demo()"></button>
 </div>
 </body>

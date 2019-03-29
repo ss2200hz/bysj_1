@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <title></title>
+    <script type="text/javascript" th:src="@{/js/mytools/mytools.js}"></script>
+</head>
+<body onload="getUserInfo()">
+<div layout:fragment="content">
+    <script type="text/javascript">
+        window.onload=getUserInfo();
+    </script>
+    <!--<button onclick="getUserInfo()">asdaseqwe</button>-->
+    <table id="userInfo" class="">
+
+    </table>
+</div>
+</body>
+</html>
