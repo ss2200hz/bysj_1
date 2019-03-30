@@ -8,8 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,25 +38,17 @@ public class LoginController {
      * 校验用户
      *
      * @param request
-     * @param user
      * @param model
      * @return
      */
-    @RequestMapping(value = "/checkuser", method = RequestMethod.POST)
-    public String checkUser(HttpServletRequest request, @ModelAttribute("user") User user, Model model) {
-        User user1 = userService.checkLogin(user);
-        if (user1 != null) {
-            userSession = request.getSession();
-            userSession.setAttribute("user", user1);
-            model.addAttribute("roleid", user1.getRoleid());
-            model.addAttribute("name", user1.getName());
-            model.addAttribute("logInfo", true);
-            peopleCount.loginCount++;
-            return "/index";
-        } else {
-            model.addAttribute("logInfo", false);
-            return "/login";
-        }
+    @ResponseBody
+    @RequestMapping(value = "/checkUser", method = RequestMethod.GET)
+    public HashMap checkUser(HttpServletRequest request, String loginname,String password,Model model) {
+        HashMap result = new HashMap();
+        User user = new User();
+        user.setLoginname(loginname);
+        user.setPassword(password);
+        return userService.checkUser(request,user);
     }
 
     /**
@@ -64,7 +58,12 @@ public class LoginController {
      * @return
      */
     @RequestMapping("/index")
-    public String index(Model model) {
+    public String index(HttpServletRequest request,Model model) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("name", user.getName());
+        model.addAttribute("roleid", user.getRoleid());
+        model.addAttribute("logInfo", true);
         System.out.println(peopleCount.loginCount);
         return "/index";
     }

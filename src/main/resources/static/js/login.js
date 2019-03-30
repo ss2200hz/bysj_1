@@ -1,11 +1,30 @@
-document.write('<script th:src=@{/webjars/materializecss/js/materialize.min.js} type="text/javascript"></script>')
-
 function checkUser(){
-    var logInfo = $('#logInfo').val();
-    alert(logInfo);
-    if(!logInfo){
-        Materialize.toast('密码错误!', 4000);
+    var loginname = $("#name").val();
+    var password = $("#password").val();
+    if(isEmpty(loginname) || isEmpty(password)){
+        alert("用户名和密码不能为空！");
+        return false;
     }
+    var data = {"loginname":loginname,"password":hex_md5($("#password").val())};
+    $.ajax({
+        url:'/checkUser',
+        type:'get',
+        data:data,
+        dataType:'json',
+        success:function(jso){
+            if(jso.successed){
+//               successed $.ajax({
+//                    url:"/index",
+//                    type:"get",
+//                    success:function(){
+//                    }
+//                })
+                window.location.href="/index";
+            }else{
+                alert(jso.errorInfo);
+            }
+        }
+    });
 }
 
 function signup(){
@@ -28,3 +47,10 @@ function test(){
     alert(pwd);
 }
 
+function isEmpty(str){
+    if(str == null || str == '' || str == 'undefined'){
+        return true;
+    }else{
+        return false;
+    }
+}

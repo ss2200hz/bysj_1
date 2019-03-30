@@ -10,11 +10,11 @@ function exitLogin(){
 }
 
 function showDiv(str){
-    $("#mineInfo").hide();
+    $("#myInfo").hide();
     $("#userInfo").hide();
     $("#labInfo").hide();
     $("#classInfo").hide();
-    $("#"+str).load("/myInfo");
+    $("#"+str).load("/"+str);
     $("#"+str).show();
 }
 

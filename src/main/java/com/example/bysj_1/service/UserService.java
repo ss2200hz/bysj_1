@@ -8,9 +8,12 @@ import com.example.bysj_1.utils.StringUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.DigestUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,17 +26,26 @@ public class UserService {
 
     public static HttpSession userSession;
 
-    public User checkLogin(User user) {
+    public HashMap checkUser(HttpServletRequest request, User user) {
+        HashMap map = new HashMap();
         List<User> userList = userMapper.findUserById(user.getLoginname());
-        if (CollectionUtils.isEmpty(userList)) {
-            return null;
+        if (CollectionUtils.isEmpty(userList) || userList.size() == 0) {
+            map.put("successed", false);
+            map.put("errorInfo", "找不到该用户，请确认用户名是否正确");
+            return map;
         }
         User result = userList.get(0);
-        if (StringUtils.equals(result.getPassword(), user.getPassword())) {
-            return result;
+        System.out.println(DigestUtils.md5DigestAsHex(result.getPassword().getBytes()));
+        System.out.println(user.getPassword());
+        if (StringUtils.equals(DigestUtils.md5DigestAsHex(result.getPassword().getBytes()), user.getPassword())) {
+            HttpSession session = request.getSession();
+            session.setAttribute("user", result);
+            map.put("successed", true);
         } else {
-            return null;
+            map.put("successed", false);
+            map.put("errorInfo", "密码不正确");
         }
+        return map;
     }
 
     public boolean insertUser(User user) {
@@ -55,6 +67,7 @@ public class UserService {
 
     /**
      * 查询当前用户的所有信息
+     *
      * @param userId
      * @return
      */
@@ -65,15 +78,20 @@ public class UserService {
             result.put("username", user.getName());
             result.put("idCard", user.getLoginname());
             result.put("roleid", user.getRoleid());
-            result.put("classNo", user.getClassNo());
-            String className = classMapper.getClassNameById(user.getClassNo());
-            result.put("className", className);
+//            result.put("classNo", user.getClassNo());
+            List<String> classNos = StringUtils.String2List(user.getClassNo(), ",");
+            List<String> classNames = new ArrayList<>();
+            for (String classNo : classNos) {
+                String className = classMapper.getClassNameById(classNo);
+                classNames.add(className);
+            }
+            result.put("className", StringUtils.List2String(classNames));
             result.put("phone", user.getPhone());
             result.put("email", user.getEmail());
             result.put("inductDate", user.getSignupDate());
-        }else{
-            result.put("error",true);
-            result.put("errorInfo","can't find this user");
+        } else {
+            result.put("error", true);
+            result.put("errorInfo", "can't find this user");
         }
         return result;
     }

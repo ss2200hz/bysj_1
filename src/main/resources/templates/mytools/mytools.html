@@ -6,13 +6,15 @@
     <title></title>
     <script type="text/javascript" th:src="@{/js/mytools/mytools.js}"></script>
 </head>
-<body onload="getUserInfo()">
+<body>
 <div layout:fragment="content">
-    <script type="text/javascript">
-        window.onload=getUserInfo();
+    <!--<input type="hidden" id="roleid" th:value="${roleid}">-->
+    <script type="text/javascript">`
+        window.onload=getRoleId();
+
     </script>
     <!--<button onclick="getUserInfo()">asdaseqwe</button>-->
-    <table id="userInfo" class="">
+    <table id="tools" class="">
 
     </table>
 </div>

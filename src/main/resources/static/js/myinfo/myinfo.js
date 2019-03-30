@@ -15,28 +15,44 @@ function getUserInfo(){
 }
 
 function showTbDiv(jso){
+    var roleid = jso.roleid;
+    var roleName;
+    if(roleid=='1'){
+        roleName='超级管理员';
+    }else if(roleid=='2'){
+        roleName='实验室管理员';
+    }else if(roleid=='3'){
+        roleName='教师';
+    }else{
+    }
     var html = '<tr>'+
-                '   <td>姓名</td>'+
-                '   <td>'+jso.username+'</td>'+
-                '   <td>工号</td>'+
-                '   <td>'+jso.idCard+'</td>'+
+               '   <td>姓名</td>'+
+               '   <td>'+jso.username+'</td>'+
+               '   <td>工号</td>'+
+               '   <td>'+jso.idCard+'</td>'+
                '</tr>'+
                '<tr>'+
-               '    <td>课程代码</td>'+
-               '    <td>'+jso.classNo+'</td>'+
-               '    <td>课程名</td>'+
+               '    <td>职务</td>'+
+               '    <td>'+roleName+'</td>'+
+               '    <td>所教课程</td>'+
                '    <td>'+jso.className+'</td>'+
                '</tr>'+
                '<tr>'+
                '    <td>电话号码</td>'+
-               '    <td>'+jso.phone+'</tr>'+
+               '    <td>'+jso.phone+'</td>'+
                '    <td>电子邮箱</td>'+
                '    <td>'+jso.email+'</td>'+
                '</tr>'+
                '<tr>'+
                '    <td>入职日期</td>'+
                '    <td>'+jso.inductDate+'</td>'+
+               '    <td>入职日期</td>'+
+               '    <td><input type="button" onclick="editMyInfo()" value = "修改信息"></td>'+
                '</tr>';
      $("#userInfo").append(html);
 //    alert(jso);
+}
+
+function editMyInfo(){
+
 }

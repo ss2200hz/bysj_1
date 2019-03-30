@@ -4,9 +4,10 @@
       layout:decorator="layout/default">
 <head>
     <title>请登录</title>
-    <!--<script type="text/javascript" th:src="@{/js/login.js}"></script>-->
+    <script type="text/javascript" th:src="@{/js/login.js}"></script>
+    <script type="text/javascript" th:src="@{/js/md5.js}"></script>
 </head>
-<body th:onload="checkUser()">
+<body>
 <div layout:fragment="content">
     <!--<div align="center">-->
     <!--<img class="img-responsive" th:src="@{/pic/saber.jpg}"/>-->
@@ -17,18 +18,18 @@
             <a href="#" class="brand-logo center">欢迎使用</a>
         </div>
     </nav>
-    <form class="col s12" th:action="@{/checkuser}" th:object="${user}" method="POST">
+    <!--<form class="col s12" th:action="@{/checkuser}" th:object="${user}" method="POST">-->
         <div class="row center">
             <div class="input-field col s6 offset-s3">
                 <i class="material-icons prefix">account_circle</i>
-                <input id="name" th:field="*{loginname}" type="text" class="validate">
+                <input id="name" type="text" class="validate">
                 <label for="name">用户名（工号）：</label>
             </div>
         </div>
         <div class="row center">
             <div class="input-field col s6 offset-s3">
                 <i class="material-icons prefix">lock_outline</i>
-                <input id="password" th:field="*{password}" type="password">
+                <input id="password" type="password">
                 <label for="password">密码：</label>
             </div>
         </div>
@@ -37,10 +38,10 @@
                 <a href="/singup" name="singup">没有账户？请注册</a>
             </div>
             <div class="col s12 offset-s6">
-                <button class="btn waves-effect waves-light" type="submit" name="login">登录
+                <button class="btn waves-effect waves-light" onclick="checkUser()" name="login">登录
                     <i class="mdi-content-send right"></i></button>
             </div>
         </div>
-    </form>
+    <!--</form>-->
 </div>
 </body>
