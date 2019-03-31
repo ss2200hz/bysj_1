@@ -24,8 +24,6 @@ public class UserService {
     private UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
     private ClassMapper classMapper = sqlSession.getMapper(ClassMapper.class);
 
-    public static HttpSession userSession;
-
     public HashMap checkUser(HttpServletRequest request, User user) {
         HashMap map = new HashMap();
         List<User> userList = userMapper.findUserById(user.getLoginname());

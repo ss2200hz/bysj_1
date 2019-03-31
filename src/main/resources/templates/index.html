@@ -14,7 +14,7 @@
             <a href="#" class="brand-logo">欢迎使用</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><span th:text="'你好，'+${name}"></span></li>
-                <li><span>          </span></li>
+                <li><span>                  </span></li>
                 <li><a href="#" onclick="exitLogin()">退出登录</a>
             </ul>
         </div>
@@ -24,7 +24,7 @@
                 <li class="tab"><a href="javascript:void(0)" onclick="showDiv('userInfo')">用户信息</a></li>
                 <li class="tab"><a href="javascript:void(0)" onclick="showDiv('labInfo')">查看实验室</a></li>
                 <li class="tab"><a href="javascript:void(0)" onclick="showDiv('classInfo')">查看课程</a></li>
-                <li class="tab"><a href="javascript:void(0)" onclick="showDiv('myTools')">我的功能</a></li>
+                <li class="tab"><a href="javascript:void(0)" onclick="showDiv('appointLab')">预约实验室</a></li>
             </ul>
         </div>
     </nav>
@@ -32,7 +32,7 @@
     <div id="userInfo" class="col s12" style="display:none"></div>
     <div id="labInfo" class="col s12" style="display:none"></div>
     <div id="classInfo" class="col s12" style="display:none"></div>
-    <div id="myTools" class="col s12" style="display:none"></div>
+    <div id="appointLab" class="col s12" style="display:none"></div>
 </div>
 </body>
 </html>

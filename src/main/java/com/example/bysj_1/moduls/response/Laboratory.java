@@ -1,5 +1,10 @@
 package com.example.bysj_1.moduls.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+
 /**
  * 实验室信息
  */
@@ -7,49 +12,74 @@ public class Laboratory {
     /**
      * 实验室编号
      */
-    private String laboratory_no;
+    private String laboratoryNo;
     /**
      * 实验室名称
      */
-    private String laboratory_name;
+    private String laboratoryName;
     /**
      * 实验室类型
      */
-    private String laboratory_type;
+    private String laboratoryType;
     /**
      * 实验室可容纳人数
      */
-    private int person_num;
+    private int personNum;
+    /**
+     * 维护时间
+     */
+    @DateTimeFormat(pattern = "yyyy-mm-dd hh24:mm:ss")
+    private LocalDate lastMaintenanceDate;
+    /**
+     * 使用次数
+     */
+    private int useTimes;
 
-    public String getLaboratory_no() {
-        return laboratory_no;
+    public String getLaboratoryNo() {
+        return laboratoryNo;
     }
 
-    public void setLaboratory_no(String laboratory_no) {
-        this.laboratory_no = laboratory_no;
+    public void setLaboratoryNo(String laboratoryNo) {
+        this.laboratoryNo = laboratoryNo;
     }
 
-    public String getLaboratory_name() {
-        return laboratory_name;
+    public String getLaboratoryName() {
+        return laboratoryName;
     }
 
-    public void setLaboratory_name(String laboratory_name) {
-        this.laboratory_name = laboratory_name;
+    public void setLaboratoryName(String laboratoryName) {
+        this.laboratoryName = laboratoryName;
     }
 
-    public String getLaboratory_type() {
-        return laboratory_type;
+    public String getLaboratoryType() {
+        return laboratoryType;
     }
 
-    public void setLaboratory_type(String laboratory_type) {
-        this.laboratory_type = laboratory_type;
+    public void setLaboratoryType(String laboratoryType) {
+        this.laboratoryType = laboratoryType;
     }
 
-    public int getPerson_num() {
-        return person_num;
+    public int getPersonNum() {
+        return personNum;
     }
 
-    public void setPerson_num(int person_num) {
-        this.person_num = person_num;
+    public void setPersonNum(int personNum) {
+        this.personNum = personNum;
+    }
+
+    public LocalDate getLastMaintenanceDate() {
+        return lastMaintenanceDate;
+    }
+
+    public void setLastMaintenanceDate(LocalDate lastMaintenanceDate) {
+        this.lastMaintenanceDate = lastMaintenanceDate;
+    }
+
+    public int getUseTimes() {
+        return useTimes;
+    }
+
+    public void setUseTimes(int useTimes) {
+        this.useTimes = useTimes;
     }
 }

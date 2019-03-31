@@ -14,7 +14,17 @@ function showDiv(str){
     $("#userInfo").hide();
     $("#labInfo").hide();
     $("#classInfo").hide();
-    $("#"+str).load("/"+str);
+    if(str == 'myInfo'){
+        $("#"+str).load("/"+str);
+    }else if(str == 'userInfo'){
+
+    }else if(str == 'labInfo'){
+        $("#"+str).load("/laboratory/labInfo")
+    }else if(str == 'classInfo'){
+
+    }else{
+        return;
+    }
     $("#"+str).show();
 }
 

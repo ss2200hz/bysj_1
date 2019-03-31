@@ -56,13 +56,15 @@ public interface UserMapper {
      * @return
      */
     @Select(" select " +
-            " idcard as loginname," +
-            " name as name," +
-            " class_no as classNo," +
-            " phone as phone," +
-            " email as email," +
-            " induct_date as signupDate" +
-            " from teacher" +
-            " where idcard = #{idcard}")
+            " a.idcard as loginname," +
+            " a.name as name," +
+            " b.roleid as roleid," +
+            " a.class_no as classNo," +
+            " a.phone as phone," +
+            " a.email as email," +
+            " a.induct_date as signupDate" +
+            " from teacher as a,user_ as b" +
+            " where idcard = #{idcard}" +
+            " and a.idcard = b.loginname")
     User getUserInfoById(@Param("idcard") String userId);
 }

@@ -17,13 +17,14 @@ function getUserInfo(){
 function showTbDiv(jso){
     var roleid = jso.roleid;
     var roleName;
-    if(roleid=='1'){
+    if(roleid=='0'){
         roleName='超级管理员';
+    }else if(roleid=='1'){
+        roleName='教师';
     }else if(roleid=='2'){
         roleName='实验室管理员';
-    }else if(roleid=='3'){
-        roleName='教师';
     }else{
+        roleName = '新用户';
     }
     var html = '<tr>'+
                '   <td>姓名</td>'+
