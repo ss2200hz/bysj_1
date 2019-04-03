@@ -1,3 +1,4 @@
+//获取用户信息
 function getUserInfo(){
 //    alert("123123");
     $.ajax({
@@ -14,6 +15,7 @@ function getUserInfo(){
             async: false});
 }
 
+//拼装信息列表
 function showTbDiv(jso){
     var roleid = jso.roleid;
     var roleName;
@@ -54,6 +56,7 @@ function showTbDiv(jso){
 //    alert(jso);
 }
 
+//退出登录
 function editMyInfo(){
 
 }

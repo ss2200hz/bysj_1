@@ -9,6 +9,20 @@ import java.util.List;
  * 实验室相关dao
  */
 public interface LaboratoryMapper {
+
+    /**
+     * 获取实验室数量
+     */
+    @Select("select" +
+            " count(*) from laboratory")
+    int getLabNum();
+
+    /**
+     * 实验室列表
+     * @param min 开始记录数
+     * @param total 记录总数
+     * @return
+     */
     @Select("select " +
             " laboratory_no as laboratoryNo," +
             " laboratory_name as laboratoryName," +
@@ -16,12 +30,9 @@ public interface LaboratoryMapper {
             " person_num as personNum," +
             " last_maintenance_date as lastMaintenanceDate," +
             " use_times as useTimes " +
-            " from laboratory")
-    List<Laboratory> findLaboratory(@Param("max") int max, @Param("min") int min);
+            " from laboratory" +
+            " order by 'laboratory_no'" +
+            " limit #{min},#{total} ")
+    List<Laboratory> findLaboratory(@Param("min") int min, @Param("total") int total);
 
-    /**
-     * 获取实验室数量
-     */
-    @Select("")
-    int getLabNum();
 }

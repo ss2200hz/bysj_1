@@ -1,6 +1,5 @@
 package com.example.bysj_1.controllers;
 
-import com.example.bysj_1.moduls.PeopleCount;
 import com.example.bysj_1.moduls.User;
 import com.example.bysj_1.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -12,16 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import java.util.HashMap;
-import java.util.Map;
-
-import static com.example.bysj_1.service.UserService.userSession;
 
 @Controller
 public class LoginController {
     private UserService userService = new UserService();
-    PeopleCount peopleCount = PeopleCount.getInstence();
+//    PeopleCount peopleCount = PeopleCount.getInstence();
 
     /**
      * 登录页面
@@ -64,7 +59,7 @@ public class LoginController {
         model.addAttribute("name", user.getName());
         model.addAttribute("roleid", user.getRoleid());
         model.addAttribute("logInfo", true);
-        System.out.println(peopleCount.loginCount);
+//        System.out.println(peopleCount.loginCount);
         return "/index";
     }
 
