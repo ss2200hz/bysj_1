@@ -2,7 +2,7 @@ package com.example.bysj_1.service;
 
 import com.example.bysj_1.dao.ClassMapper;
 import com.example.bysj_1.dao.UserMapper;
-import com.example.bysj_1.moduls.User;
+import com.example.bysj_1.moduls.response.User;
 import com.example.bysj_1.utils.MyBatisUtils;
 import com.example.bysj_1.utils.StringUtils;
 import org.apache.ibatis.session.SqlSession;

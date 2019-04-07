@@ -1,6 +1,6 @@
 package com.example.bysj_1.controllers;
 
-import com.example.bysj_1.moduls.User;
+import com.example.bysj_1.moduls.response.User;
 import com.example.bysj_1.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,13 +33,11 @@ public class LoginController {
      * 校验用户
      *
      * @param request
-     * @param model
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/checkUser", method = RequestMethod.GET)
-    public HashMap checkUser(HttpServletRequest request, String loginname,String password,Model model) {
-        HashMap result = new HashMap();
+    public HashMap checkUser(HttpServletRequest request, String loginname,String password) {
         User user = new User();
         user.setLoginname(loginname);
         user.setPassword(password);

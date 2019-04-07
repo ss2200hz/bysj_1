@@ -1,6 +1,6 @@
 package com.example.bysj_1.dao;
 
-import com.example.bysj_1.moduls.User;
+import com.example.bysj_1.moduls.response.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

@@ -1,4 +1,4 @@
-package com.example.bysj_1.moduls;
+package com.example.bysj_1.moduls.response;
 
 import org.springframework.format.annotation.DateTimeFormat;
 

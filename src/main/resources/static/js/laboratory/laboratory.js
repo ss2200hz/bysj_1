@@ -40,7 +40,7 @@ function showData(jso){
     $("#labList").empty();
     for (i=0;i<infoList.length;i++){
         var data = infoList[i];
-        var appiontButtonHtml = '<button class="btn waves-effect waves-light" onclick="appointLab('+"'"+data.laboratoryNo+"'"+')">预约'
+        var appiontButtonHtml = '<button class="btn waves-effect waves-light" onclick="openAppoint('+"'"+data.laboratoryNo+"'"+')">预约'
         tbHtmlCode = "<tr>"+
                      "  <td>"+data.laboratoryNo+"</td>"+
                      "  <td>"+data.laboratoryName+"</td>"+
@@ -86,5 +86,14 @@ function initPagingDiv(pageNum){
            $(this).addClass("active");
         })
     })
+}
+
+function openAppoint(labNo){
+    var url = '/laboratory/app';
+    var iWidth = window.screen.width/2;//弹出窗口的宽度;
+    var iHeight = window.screen.height/2;//弹出窗口的高度;
+    var iTop = (window.screen.height-30-iHeight)/2;//获得窗口的垂直位置;
+    var iLeft = (window.screen.width-10-iWidth)/2;//获得窗口的水平位置;
+    window.open('/laboratory/appointment?laboratoryNo='+labNo,window, 'resizable=no,alwaysRaised=yes,menubar=no,location=no,height='+iHeight+',width='+iWidth+',top='+iTop+',left='+iLeft);
 }
 

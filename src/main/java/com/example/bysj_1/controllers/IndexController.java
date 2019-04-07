@@ -1,6 +1,6 @@
 package com.example.bysj_1.controllers;
 
-import com.example.bysj_1.moduls.User;
+import com.example.bysj_1.moduls.response.User;
 import com.example.bysj_1.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
