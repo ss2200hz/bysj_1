@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <title>编辑实验室</title>
+    <script type="text/javascript" th:src="@{/js/laboratory/laboratory_edit.js}"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <input type="hidden" id="laboratoryNo" th:value="${laboratoryNo}">
+    <script type="text/javascript">
+        window.onload = init();
+    </script>
+    <ul class="collapsible popout" data-collapsible="expandable">
+        <li>
+            <div class="collapsible-header active"><i class="material-icons">filter_drama</i>基本信息</div>
+            <div class="collapsible-body">
+                <div class="row">
+                    <table class="striped" id="baseInfo">
+                        <tr>
+                            <td>实验室编号</td>
+                            <td><input id="labNo" type="text"></td>
+                            <input id="labNo_hidden" type="hidden">
+                        </tr>
+                        <tr>
+                            <td>实验室名称</td>
+                            <td><input id="laboratoryName" type="text"></td>
+                            <input id="laboratoryName_hidden" type="hidden">
+                        </tr>
+                        <tr>
+                            <td>实验室类型</td>
+                            <td><input id="laboratoryType" type="text"></td>
+                            <input id="laboratoryType_hidden" type="hidden">
+                        </tr>
+                        <tr>
+                            <td>最大可容纳人数</td>
+                            <td><input id="personNum" type="text"></td>
+                            <input id="personNum_hidden" type="hidden">
+                        </tr>
+                        <tr>
+                            <td>上次维护日期</td>
+                            <td><input id="lastMaintenanceDate" class="datepicker"></td>
+                            <input id="lastMaintenanceDate_hidden" type="hidden">
+                        </tr>
+                        <tr>
+                            <td>已使用次数</td>
+                            <td><input id="useTimes" type="number"></td>
+                            <input id="useTimes_hidden" type="hidden">
+                        </tr>
+                        <tr>
+                            <td>是否可用</td>
+                            <td>
+                                <select class="browser-default" id="isCanUse">
+                                    <option value="Y">是</option>
+                                    <option value="N">否</option>
+                                </select>
+                            </td>
+                            <input id="isCanUse_hidden" type="hidden">
+                        </tr>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col s3 push-s4">
+                        <button class="btn waves-effect waves-light" onclick="reSet()"/>重置
+                        <i class="material-icons right">replay</i>
+                    </div>
+                    <div class="col s3 push-s3">
+                        <button class="btn waves-effect waves-light" onclick="save()"/>保存
+                        <i class="material-icons right">done</i>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header"><i class="material-icons">filter_drama</i>预约历史</div>
+            <div class="collapsible-body">
+                <div class="row">
+                    <div class="col s6 offset-s1">
+                        <button class="btn waves-effect waves-light" onclick="back()"/>退回
+                    </div>
+                </div>
+                <div>
+                    <table class="border">
+                        <thead>
+                        <tr>
+                            <th>选择</th>
+                            <th>预约人</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>当前状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="appointHistory"></tbody>
+                    </table>
+                    <div style="position:fixed;left:0;bottom:0">
+                        <ul class="pagination" id="pagingDiv">
+                            <li id="lastPageBtn" class="disabled"><a onclick="lastPage()"><i class="material-icons">chevron_left</i></a></li>
+                            <li class="waves-effect active" id="li_1"><a onclick="getPageList(1)">1</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

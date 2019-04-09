@@ -33,8 +33,6 @@ public class UserService {
             return map;
         }
         User result = userList.get(0);
-        System.out.println(DigestUtils.md5DigestAsHex(result.getPassword().getBytes()));
-        System.out.println(user.getPassword());
         if (StringUtils.equals(DigestUtils.md5DigestAsHex(result.getPassword().getBytes()), user.getPassword())) {
             HttpSession session = request.getSession();
             session.setAttribute("user", result);

@@ -1,5 +1,6 @@
 package com.example.bysj_1.controllers;
 
+import com.example.bysj_1.moduls.response.Laboratory;
 import com.example.bysj_1.moduls.response.User;
 import com.example.bysj_1.service.LaboratoryService;
 import org.springframework.stereotype.Controller;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,12 +42,21 @@ public class LaboratoryController {
      * 查询实验室信息
      */
     @ResponseBody
-    @RequestMapping(value = "getLabInfo", method = RequestMethod.GET)
+    @RequestMapping(value = "labList", method = RequestMethod.GET)
     public HashMap getLabInfo(int pageNo, int pageSize) {
         HashMap result = new HashMap();
         List infoList = laboratoryService.getLabInfo(pageNo, pageSize);
         result.put("resultList", infoList);
         return result;
+    }
+
+    /**
+     * 根据id查询实验室详细信息
+     */
+    @ResponseBody
+    @RequestMapping(value = "getLabInfoById", method = RequestMethod.GET)
+    public Laboratory getLabInfoById(@RequestParam(value = "laboratoryNo") String labNo) {
+        return laboratoryService.getLabInfoById(labNo);
     }
 
     /**
@@ -67,11 +76,66 @@ public class LaboratoryController {
      * 预约操作
      */
     @ResponseBody
-    @RequestMapping(value = "/doAppointed",method = RequestMethod.POST)
+    @RequestMapping(value = "/doAppointed", method = RequestMethod.POST)
     public HashMap doAppointed(HttpServletRequest request, @RequestBody HashMap data) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        data.put("userid",user.getLoginname());
+        data.put("userid", user.getLoginname());
         return laboratoryService.appointed(data);
+    }
+
+    /**
+     * 打开实验室编辑页面
+     */
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String openEdit(@RequestParam(value = "laboratoryNo") String labNo, Model model) {
+        model.addAttribute("laboratoryNo", labNo);
+        return "/laboratory/laboratory_edit";
+    }
+
+    /**
+     * 删除
+     */
+    @ResponseBody
+    @RequestMapping(value = "/edit", method = RequestMethod.DELETE)
+    public HashMap deleteLab(@RequestParam(value = "laboratoryNo") String labNo) {
+        return laboratoryService.deleteLab(labNo);
+    }
+
+    /**
+     * 保存实验室信息
+     *
+     * @param data
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/edit", method = RequestMethod.PUT)
+    public HashMap saveLab(@RequestBody HashMap data) {
+        return laboratoryService.saveLabInfo(data);
+    }
+
+    /**
+     * 获取实验室预约记录条数
+     *
+     * @param labNo
+     * @param pageSize
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getLabAppointNum", method = RequestMethod.GET)
+    public HashMap getLabAppNum(@RequestParam("laboratoryNo") String labNo, int pageSize) {
+        return laboratoryService.getLabAppNum(labNo, pageSize);
+    }
+
+    /**
+     * 通过实验室编号获得实验室预约记录
+     *
+     * @param pageNo
+     * @param pageSize
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getLabAppointHistory", method = RequestMethod.GET)
+    public HashMap getLabAppointHisByLabNo(@RequestParam("laboratoryNo") String labNo, int pageNo, int pageSize) {
+        return laboratoryService.getLabAppointHisByLabNo(labNo, pageNo, pageSize);
     }
 }

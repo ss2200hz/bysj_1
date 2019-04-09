@@ -7,18 +7,14 @@ import com.example.bysj_1.moduls.response.Laboratory;
 import com.example.bysj_1.utils.MyBatisUtils;
 import com.example.bysj_1.utils.SpringUtils;
 import com.example.bysj_1.utils.TimeUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.swing.text.DateFormatter;
 import java.sql.Time;
-import java.text.DateFormat;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,10 +114,106 @@ public class LaboratoryService {
         for (LabAppointment labAppointment : list) {
             LocalDateTime startTime = labAppointment.getAppointedStartTime();
             LocalDateTime endTime = labAppointment.getAppointedEndTime();
-            if (TimeUtils.isTimeInPeriod(startTime,start,end) || TimeUtils.isTimeInPeriod(endTime,start,end)){
+            if (TimeUtils.isTimeInPeriod(startTime, start, end) || TimeUtils.isTimeInPeriod(endTime, start, end)) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * 删除实验室
+     *
+     * @param labNo
+     * @return
+     */
+    public HashMap deleteLab(String labNo) {
+        HashMap map = new HashMap();
+        try {
+            laboratoryMapper.deleteLaboratory(labNo);
+            map.put("succeed", true);
+        } catch (Exception e) {
+            map.put("succeed", false);
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    /**
+     * 根据id查找实验室
+     *
+     * @param labNo
+     * @return
+     */
+    public Laboratory getLabInfoById(String labNo) {
+        return laboratoryMapper.getLaboratory(labNo);
+    }
+
+    /**
+     * 保存实验室信息
+     *
+     * @param data
+     * @return
+     */
+    public HashMap saveLabInfo(HashMap data) {
+        HashMap map = new HashMap();
+        try {
+            Laboratory laboratory = new Laboratory();
+            laboratory.setLaboratoryNo((String) data.get("laboratoryNo"));
+            laboratory.setLaboratoryName((String) data.get("laboratoryName"));
+            laboratory.setLaboratoryType((String) data.get("laboratoryType"));
+            laboratory.setLastMaintenanceDate(TimeUtils.String2Date((String) data.get("lastMaintenanceDate")));
+            laboratory.setPersonNum((Integer.parseInt((String) data.get("personNum"))));
+            laboratory.setUseTimes((Integer.parseInt((String) data.get("useTimes"))));
+            laboratory.setLaboratoryState((String) data.get("isCanUse"));
+            laboratoryMapper.insertLaboratory(laboratory, (String) data.get("oldLabNo"));
+            map.put("succeed", true);
+        } catch (Exception e) {
+            map.put("succeed", false);
+            map.put("errorInfo", "unknow error");
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    /**
+     * 获得实验室预约记录条数
+     *
+     * @return
+     */
+    public HashMap getLabAppNum(String labNo, int pageSize) {
+        HashMap map = new HashMap();
+        int total = laboratoryMapper.getLabAppNum(labNo);//总记录数
+        int pageNum;//总页数
+        if (total % pageSize == 0) {
+            pageNum = total / pageSize;
+        } else {
+            pageNum = total / pageSize + 1;
+        }
+        map.put("pageNum", pageNum);
+        return map;
+    }
+
+    /**
+     * 通过实验室编号获得实验室预约记录
+     */
+    public HashMap getLabAppointHisByLabNo(String labNo, int pageNo, int pageSize) {
+        HashMap map = new HashMap();
+        int min = 1;
+        if (pageNo > 0) {
+            min = (pageNo - 1) * pageSize;
+        }
+        //预约基本信息列表
+        List<HashMap<String, Object>> labAppointHisList = laboratoryMapper.getLabAppointHis(labNo, min, pageSize);
+        for (HashMap hashMap : labAppointHisList) {
+            LocalDateTime start = TimeUtils.String2DateTime(hashMap.get("appointedStartTime").toString());
+            LocalDateTime end = TimeUtils.String2DateTime(hashMap.get("appointedEndTime").toString());
+            if (start != null && end != null) {
+                hashMap.put("appointedStartTime", start.toString().replace("T", " "));
+                hashMap.put("appointedEndTime", end.toString().replace("T", " "));
+            }
+        }
+        map.put("resultList", labAppointHisList);
+        return map;
     }
 }

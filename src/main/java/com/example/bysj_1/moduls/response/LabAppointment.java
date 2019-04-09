@@ -26,6 +26,10 @@ public class LabAppointment {
      * 预约人
      */
     private String appointedUser;
+    /**
+     * 状态
+     */
+    private String appointedState;
 
     public String getId() {
         return id;
@@ -65,5 +69,13 @@ public class LabAppointment {
 
     public void setAppointedUser(String appointedUser) {
         this.appointedUser = appointedUser;
+    }
+
+    public String getAppointedState() {
+        return appointedState;
+    }
+
+    public void setAppointedState(String appointedState) {
+        this.appointedState = appointedState;
     }
 }

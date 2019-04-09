@@ -5,8 +5,6 @@
 <head>
     <title>首页</title>
     <script type="text/javascript" th:src="@{/js/laboratory/laboratory.js}"></script>
-    <script type="text/javascript" th:src="@{/js/layer.js}"></script>
-    <link rel="stylesheet" href="/css/layer.css">
 </head>
 <body>
 <div layout:fragment="content">
@@ -30,8 +28,8 @@
     </table>
     <div style="position:fixed;left:0;bottom:0">
         <ul class="pagination" id="pagingDiv">
-            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-            <li class="waves-effect active"><a onclick="getLaboratoryList(1)">1</a></li>
+            <li id="lastPageBtn" class="disabled"><a onclick="lastPage()"><i class="material-icons">chevron_left</i></a></li>
+            <li class="waves-effect active" id="li_1"><a onclick="getPageList(1)">1</a></li>
         </ul>
     </div>
 </div>

@@ -34,6 +34,10 @@ public class Laboratory {
      * 使用次数
      */
     private int useTimes;
+    /**
+     * 实验室状态
+     */
+    private String laboratoryState;
 
     public String getLaboratoryNo() {
         return laboratoryNo;
@@ -81,5 +85,13 @@ public class Laboratory {
 
     public void setUseTimes(int useTimes) {
         this.useTimes = useTimes;
+    }
+
+    public String getLaboratoryState() {
+        return laboratoryState;
+    }
+
+    public void setLaboratoryState(String laboratoryState) {
+        this.laboratoryState = laboratoryState;
     }
 }
