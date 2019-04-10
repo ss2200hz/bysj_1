@@ -1,6 +1,5 @@
 //获取用户信息
 function getUserInfo(){
-//    alert("123123");
     $.ajax({
             url:'/getUserInfo',
             type:'get',
@@ -21,6 +20,7 @@ function showTbDiv(jso){
     var roleName;
     if(roleid=='0'){
         roleName='超级管理员';
+        $('#minemessages').hide();
     }else if(roleid=='1'){
         roleName='教师';
     }else if(roleid=='2'){
@@ -42,21 +42,52 @@ function showTbDiv(jso){
                '</tr>'+
                '<tr>'+
                '    <td>电话号码</td>'+
-               '    <td>'+jso.phone+'</td>'+
+               '    <td>'+'<input id="phone" type="text" value="'+jso.phone+'">'+'</td>'+
                '    <td>电子邮箱</td>'+
-               '    <td>'+jso.email+'</td>'+
+               '    <td>'+'<input id="email" type="email" value="'+jso.email+'">'+'</td>'+
                '</tr>'+
                '<tr>'+
                '    <td>入职日期</td>'+
                '    <td>'+jso.inductDate+'</td>'+
-               '    <td>入职日期</td>'+
-               '    <td><input type="button" onclick="editMyInfo()" value = "修改信息"></td>'+
                '</tr>';
      $("#userInfo").append(html);
-//    alert(jso);
+     $('#phone_old').val(jso.phone);
+     $('#email_old').val(jso.email);
 }
 
-//退出登录
-function editMyInfo(){
+$(document).ready(function(){
+    $('.collapsible').collapsible();
+  });
 
+function reSet(){
+    $('#phone').val($('#phone_old').val());
+    $('#email').val($('#email_old').val());
+}
+
+function save(){
+    var phone = $('#phone').val();
+    var email = $('#email').val();
+    if(isEmpty(phone) || isEmpty(email)){
+        alert("电话和邮箱不能为空！");
+        return;
+    }
+    var requestData = {phone:phone,email:email};
+    $.ajax({
+        url:'/editUserInfo',
+        type:'put',
+        contentType: "application/json;charset=UTF-8",
+        dataType:'json',
+        data:JSON.stringify(requestData),
+        success:function(jso){
+            if(jso.succeed){
+                alert("修改成功");
+                location.reload();
+            }else{
+                alert("修改失败 "+jso.errorInfo);
+            }
+        },
+        error:function(){
+            alert("通讯错误");
+        }
+    });
 }

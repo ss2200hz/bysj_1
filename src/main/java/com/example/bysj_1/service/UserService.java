@@ -74,13 +74,7 @@ public class UserService {
             result.put("username", user.getName());
             result.put("idCard", user.getLoginname());
             result.put("roleid", user.getRoleid());
-//            result.put("classNo", user.getClassNo());
-            List<String> classNos = StringUtils.String2List(user.getClassNo(), ",");
-            List<String> classNames = new ArrayList<>();
-            for (String classNo : classNos) {
-                String className = classMapper.getClassNameById(classNo);
-                classNames.add(className);
-            }
+            List<String> classNames = userMapper.getTeacherClass(userId);
             result.put("className", StringUtils.List2String(classNames));
             result.put("phone", user.getPhone());
             result.put("email", user.getEmail());
@@ -90,5 +84,29 @@ public class UserService {
             result.put("errorInfo", "can't find this user");
         }
         return result;
+    }
+
+    /**
+     * 修改用户信息
+     */
+    public HashMap changeUserInfo(HashMap data){
+        String id = (String) data.get("id");
+        HashMap map = new HashMap();
+        if(StringUtils.isNotEmpty(id)){
+            String phone = (String) data.get("phone");
+            String email = (String) data.get("email");
+            try{
+                userMapper.updateTeacherInfo(id,phone,email);
+                map.put("succeed",true);
+            }catch (Exception e){
+                map.put("succeed",false);
+                map.put("errorInfo","unknow error");
+                e.printStackTrace();
+            }
+        }else{
+            map.put("succeed",false);
+            map.put("errorInfo","unknow error");
+        }
+        return map;
     }
 }

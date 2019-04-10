@@ -4,6 +4,7 @@ import com.example.bysj_1.moduls.response.User;
 import com.example.bysj_1.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,16 +47,18 @@ public class IndexController {
         return map;
     }
 
-
     /**
-     * 功能选择页面
-     * @return
+     * 修改用户信息
      */
-    @RequestMapping("/myTools")
-    public String myTools(HttpServletRequest request,Model model){
+    @ResponseBody
+    @RequestMapping(value = "/editUserInfo",method = RequestMethod.PUT)
+    public HashMap changeUserInfo(HttpServletRequest request, @RequestBody HashMap data){
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        model.addAttribute("roleid",user.getRoleid());
-        return "mytools/mytools";
+        if(user == null){
+            return null;
+        }
+        data.put("id",user.getLoginname());
+        return userService.changeUserInfo(data);
     }
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <title>课程信息</title>
+    <script type="text/javascript" th:src="@{/js/class/class.js}"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <script type="text/javascript">
+        window.onload = init();
+    </script>
+    <!--<button onclick="getUserInfo()">asdaseqwe</button>-->
+    <table class="bordered">
+        <thead>
+        <tr>
+            <th>课程编号</th>
+            <th>课程名</th>
+            <th>课程类型</th>
+            <th>任课教师</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="classList"></tbody>
+    </table>
+    <div style="position:fixed;left:0;bottom:0">
+        <ul class="pagination" id="pagingDiv">
+            <li id="lastPageBtn" class="disabled"><a onclick="lastPage()"><i class="material-icons">chevron_left</i></a></li>
+            <li class="waves-effect active" id="li_1"><a onclick="getPageList(1)">1</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

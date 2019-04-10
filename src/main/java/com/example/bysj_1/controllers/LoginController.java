@@ -84,4 +84,15 @@ public class LoginController {
             return "/inseruser";
         }
     }
+
+    @RequestMapping(value = "/exitLogin",method = RequestMethod.GET)
+    public String exitLogin(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if(user != null){
+            session.setAttribute("user",null);
+            return "/login";
+        }
+        return "";
+    }
 }

@@ -5,6 +5,7 @@ import com.example.bysj_1.moduls.response.User;
 import com.example.bysj_1.service.LaboratoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -134,8 +135,72 @@ public class LaboratoryController {
      * @param pageSize
      */
     @ResponseBody
-    @RequestMapping(value = "/getLabAppointHistory", method = RequestMethod.GET)
+    @RequestMapping(value = "/labAppointHistory", method = RequestMethod.GET)
     public HashMap getLabAppointHisByLabNo(@RequestParam("laboratoryNo") String labNo, int pageNo, int pageSize) {
         return laboratoryService.getLabAppointHisByLabNo(labNo, pageNo, pageSize);
+    }
+
+    /**
+     * 删除实验室预约记录
+     */
+    @ResponseBody
+    @RequestMapping(value = "/labAppointHistory",method = RequestMethod.DELETE)
+    public HashMap deleteLabAppointHisByLabNos(@RequestBody HashMap<String,List<String>> data){
+        List dataList = data.get("dataList");
+        if(CollectionUtils.isEmpty(dataList)){
+            HashMap map = new HashMap();
+            map.put("succeed",false);
+            map.put("errorInfo","empty data");
+            return map;
+        }
+        return laboratoryService.deleteLabAppointHisByLabNos(dataList);
+    }
+
+    /**
+     * 退回预约
+     */
+    @ResponseBody
+    @RequestMapping(value = "/labAppointHistory",method = RequestMethod.PUT)
+    public HashMap backLabAppoint(@RequestBody HashMap<String,List<String>> data){
+        List dataList = data.get("dataList");
+        if(CollectionUtils.isEmpty(dataList)){
+            HashMap map = new HashMap();
+            map.put("succeed",false);
+            map.put("errorInfo","empty data");
+            return map;
+        }
+        return laboratoryService.backLabAppointment(dataList);
+    }
+
+    /**
+     * 预约设为已完成
+     */
+    @ResponseBody
+    @RequestMapping(value = "/setoverlabAppointment",method = RequestMethod.PUT)
+    public HashMap setoverLabAppointment(@RequestBody HashMap<String,List<String>> data){
+        List dataList = data.get("dataList");
+        if(CollectionUtils.isEmpty(dataList)){
+            HashMap map = new HashMap();
+            map.put("succeed",false);
+            map.put("errorInfo","empty data");
+            return map;
+        }
+        return laboratoryService.setoverLabAppointment(dataList);
+    }
+
+    /**
+     * 预约设为未完成
+     */
+    @ResponseBody
+    @RequestMapping(value = "/setnotoverlabAppointment",method = RequestMethod.PUT)
+    public HashMap setNotOverLabAppointment(@RequestBody HashMap<String,List<String>> data){
+        List dataList = data.get("dataList");
+        if(CollectionUtils.isEmpty(dataList)){
+            HashMap map = new HashMap();
+            map.put("succeed",false);
+            map.put("errorInfo","empty data");
+            return map;
+        }
+        return laboratoryService.setnotoverlabAppointment(dataList);
     }
 }

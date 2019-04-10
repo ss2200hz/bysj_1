@@ -216,4 +216,84 @@ public class LaboratoryService {
         map.put("resultList", labAppointHisList);
         return map;
     }
+
+    /**
+     * 删除实验室预约记录
+     */
+    public HashMap deleteLabAppointHisByLabNos(List<String> dataList) {
+        HashMap map = new HashMap();
+        if (!CollectionUtils.isEmpty(dataList) && dataList.size() > 0) {
+            for(String appointmentId : dataList){
+                try{
+                    laboratoryMapper.deleteLabAppointHis(appointmentId);
+                    map.put("succeed",true);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    map.put("succeed",false);
+                    map.put("errorInfo","unknow error");
+                }
+            }
+        }
+        return map;
+    }
+
+    /**
+     * 退回预约
+     */
+    public HashMap backLabAppointment(List<String> dataList){
+        HashMap map = new HashMap();
+        if (!CollectionUtils.isEmpty(dataList) && dataList.size() > 0) {
+            for(String appointmentId : dataList){
+                try{
+                    laboratoryMapper.changeLabAppointState(appointmentId,"2");
+                    map.put("succeed",true);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    map.put("succeed",false);
+                    map.put("errorInfo","unknow error");
+                }
+            }
+        }
+        return map;
+    }
+
+    /**
+     * 设为已完成
+     */
+    public HashMap setoverLabAppointment(List<String> dataList){
+        HashMap map = new HashMap();
+        if (!CollectionUtils.isEmpty(dataList) && dataList.size() > 0) {
+            for(String appointmentId : dataList){
+                try{
+                    laboratoryMapper.changeLabAppointState(appointmentId,"1");
+                    map.put("succeed",true);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    map.put("succeed",false);
+                    map.put("errorInfo","unknow error");
+                }
+            }
+        }
+        return map;
+    }
+
+    /**
+     * 设为已完成
+     */
+    public HashMap setnotoverlabAppointment(List<String> dataList){
+        HashMap map = new HashMap();
+        if (!CollectionUtils.isEmpty(dataList) && dataList.size() > 0) {
+            for(String appointmentId : dataList){
+                try{
+                    laboratoryMapper.changeLabAppointState(appointmentId,"0");
+                    map.put("succeed",true);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    map.put("succeed",false);
+                    map.put("errorInfo","unknow error");
+                }
+            }
+        }
+        return map;
+    }
 }

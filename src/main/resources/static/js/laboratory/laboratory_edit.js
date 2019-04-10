@@ -135,7 +135,7 @@ function getPageList(pageNo){
     var requestData = {'laboratoryNo':$('#laboratoryNo').val(),pageNo:pageNo,pageSize:pageSize}
     nowPageNo = pageNo;
     $.ajax({
-        url:"/laboratory/getLabAppointHistory",
+        url:"/laboratory/labAppointHistory",
         type:"get",
         data:requestData,
         success:function(jso){
@@ -167,9 +167,14 @@ function showData(jso){
                      '  <td>'+data.appointedUser+'</td>'+
                      '  <td>'+data.appointedStartTime+'</td>'+
                      '  <td>'+data.appointedEndTime+'</td>'+
-                     '  <td>'+isBeUsed+'</td>';
-        var deleteButtonHtml = '<button class="btn waves-effect waves-light" onclick="doDelete('+"'"+data.id+"'"+')">删除'
-        tbHtmlCode += '<td>'+deleteButtonHtml+'</td>';
+                     '  <td>'+appState+'</td>';
+        var deleteButtonHtml = '<button class="btn waves-effect waves-light" onclick="doDelete('+"'"+data.id+"'"+')">删除';
+        var btnHtml= '<button class="btn waves-effect waves-light" onclick="back('+"'"+data.id+"'"+')">退回';
+        if(data.appointedState == 0){
+            tbHtmlCode += '<td>'+deleteButtonHtml+btnHtml+'</td>';
+        }else{
+            tbHtmlCode += '<td>'+deleteButtonHtml+'</td>';
+        }
         tbHtmlCode += "</tr>";
         $("#appointHistory").append(tbHtmlCode);
     }
@@ -177,8 +182,186 @@ function showData(jso){
     $('input[type="checkbox"]:not(:checked),[type="checkbox"]:checked').css('pointer-events','all');
 }
 
-function doDelete(appointedId){
-    alert(appointedId);
+//获取被选中的id
+function getCheckIds(){
+    var checkIds = new Array();
+    $('input[type="checkbox"]:checked').each(function(){
+        checkIds.push($(this).val());
+    });
+    if(checkIds.length > 0){
+        return checkIds;
+    }else{
+        throw 'empty';
+    }
 }
 
+//单个删除
+function doDelete(appointId){
+    var ids = new Array();
+    ids.push(appointId);
+    var requestData = {dataList:ids};
+    $.ajax({
+            url:'/laboratory/labAppointHistory',
+            type:'delete',
+            contentType: "application/json;charset=UTF-8",
+            dataType:'json',
+            data:JSON.stringify(requestData),
+            success:function(jso){
+                if(jso.succeed){
+                    alert("删除成功");
+                    location.reload();
+                }else{
+                    alert('删除失败'.jso.errorInfo);
+                }
+            },error: function(msg){
+                    alert("通讯错误");
+                }
+            });
+}
 
+//批量删除
+function doDeletes(){
+    try{
+        var ids = getCheckIds();
+        var requestData = {dataList:ids};
+        $.ajax({
+            url:'/laboratory/labAppointHistory',
+            type:'delete',
+            contentType: "application/json;charset=UTF-8",
+            dataType:'json',
+            data:JSON.stringify(requestData),
+            success:function(jso){
+                if(jso.succeed){
+                    alert("删除成功");
+                    location.reload();
+                }else{
+                    alert('删除失败'+jso.errorInfo);
+                }
+            },error: function(msg){
+                    alert("通讯错误");
+                }
+        });
+    }catch(error){
+        if(error == 'empty'){
+            alert("请选择要删除的数据");
+        }
+    }
+}
+
+//退回
+function back(id){
+    var ids = new Array();
+    ids.push(id);
+    var requestData = {dataList:ids};
+    $.ajax({
+            url:'/laboratory/labAppointHistory',
+            type:'put',
+            contentType: "application/json;charset=UTF-8",
+            dataType:'json',
+            data:JSON.stringify(requestData),
+            success:function(jso){
+                if(jso.succeed){
+                    alert("已退回该预约");
+                    location.reload();
+                }else{
+                    alert('退回失败'+jso.errorInfo);
+                }
+            },error: function(msg){
+                    alert("通讯错误");
+                }
+            });
+}
+//批量退回
+function backs(){
+    try{
+        var ids = getCheckIds();
+        var requestData = {dataList:ids};
+        $.ajax({
+            url:'/laboratory/labAppointHistory',
+            type:'put',
+            contentType: "application/json;charset=UTF-8",
+            dataType:'json',
+            data:JSON.stringify(requestData),
+            success:function(jso){
+                if(jso.succeed){
+                    alert("已退回这些预约");
+                    location.reload();
+                }else{
+                    alert('退回失败'+jso.errorInfo);
+                }
+            },error: function(msg){
+                    alert("通讯错误");
+                }
+        });
+    }catch(error){
+        if(error == 'empty'){
+            alert("请选择要退回的预约");
+        }
+    }
+}
+
+//设为已完成
+function setOver(){
+    try{
+        var ids = getCheckIds();
+        var requestData = {dataList:ids};
+        $.ajax({
+            url:'/laboratory/setoverlabAppointment',
+            type:'put',
+            contentType: "application/json;charset=UTF-8",
+            dataType:'json',
+            data:JSON.stringify(requestData),
+            success:function(jso){
+                if(jso.succeed){
+                    alert("设置成功");
+                    location.reload();
+                }else{
+                    alert('设置失败'+jso.errorInfo);
+                }
+            },error: function(msg){
+                    alert("通讯错误");
+                }
+        });
+    }catch(error){
+        if(error == 'empty'){
+            alert("请选择要退回的预约");
+        }
+    }
+}
+
+//设为未完成
+function setNotOver(){
+    try{
+        var ids = getCheckIds();
+        var requestData = {dataList:ids};
+        $.ajax({
+            url:'/laboratory/setnotoverlabAppointment',
+            type:'put',
+            contentType: "application/json;charset=UTF-8",
+            dataType:'json',
+            data:JSON.stringify(requestData),
+            success:function(jso){
+                if(jso.succeed){
+                    alert("设置成功");
+                    location.reload();
+                }else{
+                    alert('设置失败'+jso.errorInfo);
+                }
+            },error: function(msg){
+                    alert("通讯错误");
+                }
+        });
+    }catch(error){
+        if(error == 'empty'){
+            alert("请选择要退回的预约");
+        }
+    }
+}
+
+$(document).ready(function(){
+$('#checkAll').change(function (){
+    $('input[type="checkbox"]').each(function(){
+        $(this).prop("checked",$('#checkAll').prop('checked'));
+    })
+})
+})

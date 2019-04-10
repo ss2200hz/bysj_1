@@ -4,9 +4,13 @@ function init(){
 
 function exitLogin(){
     $.ajax({
-        url:'',
+        url:'/exitLogin',
         type:'get',
-        success:function(jso){}});
+        success:function(jso){
+            alert("退出成功,请重新登陆");
+            location.reload();
+        }
+    });
 }
 
 function showDiv(str){
@@ -21,7 +25,7 @@ function showDiv(str){
     }else if(str == 'labInfo'){
         $("#"+str).load("/laboratory/labInfo")
     }else if(str == 'classInfo'){
-
+        $("#"+str).load("/class/class_info")
     }else{
         return;
     }

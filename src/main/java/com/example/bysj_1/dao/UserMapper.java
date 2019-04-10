@@ -4,9 +4,12 @@ import com.example.bysj_1.moduls.response.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface UserMapper {
@@ -33,6 +36,7 @@ public interface UserMapper {
      * 查询用户
      */
     @Select("select " +
+            " loginname as userid," +
             " loginname as loginname," +
             " password as password ," +
             " name as name," +
@@ -59,12 +63,44 @@ public interface UserMapper {
             " a.idcard as loginname," +
             " a.name as name," +
             " b.roleid as roleid," +
-            " a.class_no as classNo," +
             " a.phone as phone," +
             " a.email as email," +
             " a.induct_date as signupDate" +
-            " from teacher as a,user_ as b" +
+            " from teacher as a,user_ as b " +
             " where idcard = #{idcard}" +
             " and a.idcard = b.loginname")
     User getUserInfoById(@Param("idcard") String userId);
+
+    /**
+     * 查询教师任课信息
+     */
+    @Select("select" +
+            " a.class_name as className" +
+            " from class as a,class_teacher as b,user_ as c" +
+            " where a.class_no = b.class_id" +
+            " and b.user_id = c.loginname" +
+            " and c.loginname = #{idcard}")
+    List<String> getTeacherClass(@Param("idcard")String userId);
+
+    /**
+     * 修改用户信息
+     */
+    @Update("update user_" +
+            " set " +
+            " name = #{user.name}," +
+            " roleid = ${user.roleid}," +
+            " signup_date = #{user.signupDate}" +
+            " where loginname = #{user.loginname}")
+    void updateUserInfo(Map user);
+
+    /**
+     * 更新教师表信息
+     */
+    @Update("update teacher" +
+            " set " +
+            " phone = #{phone}," +
+            " email = #{email}" +
+            " where idcard = #{id}")
+    void updateTeacherInfo(@Param("id") String id,@Param("phone")String phone,@Param("email")String email);
+
 }

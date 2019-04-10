@@ -24,6 +24,9 @@ public interface ClassMapper {
             " where class_no = #{classNo}")
     String getClassNameById(@Param("classNo") String classNo);
 
+    /**
+     * 课程时间表
+     */
     @Select("select" +
             " class_1_start_time," +
             " class_1_end_time," +

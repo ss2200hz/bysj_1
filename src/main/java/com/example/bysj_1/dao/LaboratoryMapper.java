@@ -118,8 +118,9 @@ public interface LaboratoryMapper {
             " laboratory_no," +
             " appointed_start_time," +
             " appointed_end_time," +
-            " appointed_user )" +
-            " values(#{id},#{laboratoryNo},#{appointedStartTime},#{appointedEndTime},#{appointedUser})")
+            " appointed_user," +
+            " appointed_state )" +
+            " values(#{id},#{laboratoryNo},#{appointedStartTime},#{appointedEndTime},#{appointedUser},'0')")
     void appointLab(LabAppointment labAppointment);
 
     /**
@@ -137,9 +138,28 @@ public interface LaboratoryMapper {
             " appointed_id as id," +
             " appointed_start_time as appointedStartTime," +
             " appointed_end_time as appointedEndTime," +
-            " appointed_user as appointedUser," +
+            " name as appointedUser," +
             " appointed_state as appointedState" +
-            " from laboratory_appointment" +
-            " where laboratory_no = #{labNo}")
+            " from laboratory_appointment,teacher" +
+            " where laboratory_no = #{labNo}" +
+            " and appointed_user = idcard")
     List<HashMap<String, Object>> getLabAppointHis(@Param("labNo") String labNo, @Param("min") int min, @Param("total") int total);
+
+    /**
+     * 删除实验室预约记录
+     * @param id
+     */
+    @Delete("delete from" +
+            " laboratory_appointment" +
+            " where appointed_id = #{id}")
+    void deleteLabAppointHis(@Param("id")String id);
+
+    /**
+     * 修改状态
+     */
+    @Update("update" +
+            " laboratory_appointment" +
+            " set appointed_state = #{state}" +
+            " where appointed_id = #{id}")
+    void changeLabAppointState(@Param("id")String id,@Param("state")String state);
 }

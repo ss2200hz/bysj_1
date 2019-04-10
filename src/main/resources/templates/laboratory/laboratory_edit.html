@@ -12,7 +12,7 @@
     <script type="text/javascript">
         window.onload = init();
     </script>
-    <ul class="collapsible popout" data-collapsible="expandable">
+    <ul class="collapsible" data-collapsible="expandable">
         <li>
             <div class="collapsible-header active"><i class="material-icons">filter_drama</i>基本信息</div>
             <div class="collapsible-body">
@@ -73,18 +73,27 @@
             </div>
         </li>
         <li>
-            <div class="collapsible-header"><i class="material-icons">filter_drama</i>预约历史</div>
+            <div class="collapsible-header"><i class="material-icons">filter_drama</i>预约记录</div>
             <div class="collapsible-body">
                 <div class="row">
-                    <div class="col s6 offset-s1">
-                        <button class="btn waves-effect waves-light" onclick="back()"/>退回
+                    <div class="col s1 ">
+                        <button class="btn waves-effect waves-light" onclick="doDeletes()"/>删除
+                    </div>
+                    <div class="col s1 ">
+                        <button class="btn waves-effect waves-light" onclick="backs()"/>退回
+                    </div>
+                    <div class="col s3 ">
+                        <button class="btn waves-effect waves-light" onclick="setOver()"/>设为已完成
+                    </div>
+                    <div class="col s3 pull-s2">
+                        <button class="btn waves-effect waves-light" onclick="setNotOver()"/>设为未完成
                     </div>
                 </div>
                 <div>
                     <table class="border">
                         <thead>
                         <tr>
-                            <th>选择</th>
+                            <th><input type="checkbox" id="checkAll"></th>
                             <th>预约人</th>
                             <th>开始时间</th>
                             <th>结束时间</th>
