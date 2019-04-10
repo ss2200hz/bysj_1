@@ -104,3 +104,16 @@ function isEmpty(str){
         return false;
     }
 }
+
+function isElementInList(list,element){
+    if(isEmpty(list) || list.length == 0){
+        return false;
+    }
+    for(var i=0;i<list.length;i++){
+        var data = list[i];
+        if(element == data){
+            return true;
+        }
+    }
+    return false;
+}

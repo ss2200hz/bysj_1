@@ -1,11 +1,11 @@
 package com.example.bysj_1.dao;
 
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Time;
-import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,4 +53,58 @@ public interface ClassMapper {
             " from class_times " +
             " where school_no = #{schoolNo}")
     Map<String, Time> getClasstime(@Param("schoolNo")String schoolNo);
+
+    @Select("select " +
+            " count(*) " +
+            " from class")
+    int getClassNum();
+
+    /**
+     * 查询所有课程
+     */
+    @Select("select " +
+            " class_no as classNo," +
+            " class_name as className," +
+            " class_type as classType" +
+            " from class " +
+            " order by class_no" +
+            " limit #{min},#{total}")
+    List<HashMap<String,Object>> getClassList(@Param("min") int min, @Param("total") int total);
+
+    @SelectProvider(type = ClassSearchSqlProvider.class,method = "selectWhitParamSql")
+    List<HashMap<String,Object>> getClassListByCondition(HashMap param);
+
+    /**
+     * 查找某课程的所有任课教师
+     */
+    @Select("select " +
+            " b.idcard as teacherId," +
+            " b.name as name" +
+            " from class_teacher as a,teacher as b" +
+            " where class_id = #{classNo}" +
+            " and a.user_id = b.idcard")
+    List<HashMap<String,String>> getTeacherByClassNo(@Param("classNo")String classNo);
+
+    /**
+     * 删除课程
+     */
+    @Delete("delete from class" +
+            " where class_no=#{classNo}")
+    void deleteClassByClassNo(@Param("classNo")String classNo);
+
+    /**
+     * 加入课程
+     */
+    @Insert("insert into class_teacher" +
+            " (id,class_id,user_id)" +
+            " values(#{id},#{classNo},#{userid})")
+    void joinClass(@Param("id")String id,@Param("classNo")String classNo,@Param("userid")String userid);
+
+    /**
+     * 退出课程
+     */
+    @Delete("delete from class_teacher" +
+            " where class_id=#{classNo}" +
+            " and user_id=#{userid}")
+    void exitClass(@Param("classNo")String classNo,@Param("userid")String userid);
 }

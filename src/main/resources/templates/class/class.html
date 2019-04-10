@@ -6,12 +6,40 @@
 <head>
     <title>课程信息</title>
     <script type="text/javascript" th:src="@{/js/class/class.js}"></script>
+    <script type="text/javascript" th:src="@{/js/base64.js}"></script>
 </head>
 <body>
 <div layout:fragment="content">
+    <input type="hidden" id="roleid" th:value="${roleid}">
+    <input type="hidden" id="userid" th:value="${userid}">
     <script type="text/javascript">
         window.onload = init();
     </script>
+    <!--<div class="row" id="searchDiv">-->
+        <!--<div class="input-field col s3">-->
+            <!--<i class="material-icons prefix">input</i>-->
+            <!--<input id="number" type="text">-->
+            <!--<label for="number">课程编号</label>-->
+        <!--</div>-->
+        <!--<div class="input-field col s3 ">-->
+            <!--<i class="material-icons prefix">input</i>-->
+            <!--<input id="name" type="text">-->
+            <!--<label for="name">课程名</label>-->
+        <!--</div>-->
+        <!--<div class="input-field col s3 ">-->
+            <!--<i class="material-icons prefix">input</i>-->
+            <!--<input id="type" type="text">-->
+            <!--<label for="type">课程类型</label>-->
+        <!--</div>-->
+        <!--<div class="col s1">-->
+            <!--<button class="btn waves-effect waves-light" onclick="clear()" name="login">清空-->
+                <!--<i class="material-icons right">restore</i></button>-->
+        <!--</div>-->
+        <!--<div class="col s1 push-s1">-->
+            <!--<button class="btn waves-effect waves-light" onclick="search()" name="login">搜索-->
+                <!--<i class="material-icons right">search</i></button>-->
+        <!--</div>-->
+    <!--</div>-->
     <!--<button onclick="getUserInfo()">asdaseqwe</button>-->
     <table class="bordered">
         <thead>
