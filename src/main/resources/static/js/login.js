@@ -30,19 +30,51 @@ function checkUser(){
 function signup(){
     $.ajax({
     url:"/singup",
-    type:"post",
+    type:"get",
     async:false});
 }
 
 function checkPassword(){
-    var pwd = document.getelementbyid("password");
-    var pwdAgain = document.getelementbyid("password_again");
-    if(pwd == pwdAgain){
-        alert("123123");
+    var pwd = $('#password').val();
+    var pwdAgain = $('#password_again').val();
+    if(pwd != pwdAgain){
+        alert("两次输入的密码不一致!");
+        return false;
     }
+    return true;
 }
-function test(){
-    var pwd = document.getelementbyid("password");
-    var pwdAgain = document.getelementbyid("password_again");
-    alert(pwd);
+
+//注册
+function usersignup(){
+    if(!checkPassword()){
+        return;
+    }
+    var userid = $('#name').val();
+    var roleid = $('#roleid').val();
+    var password = $('#password').val();
+    var phone = $('#phone').val();
+    var email = $('#email').val();
+    if(isEmpty(userid)||isEmpty(roleid)||isEmpty(password)||isEmpty(phone)||isEmpty(email)){
+        alert("请填写全信息");
+        return;
+    }
+    var requestData = {id:userid,roleid:roleid,password:password,phone:phone,email:email};
+    $.ajax({
+        url:'/inseruser',
+        type:'post',
+        contentType: "application/json;charset=UTF-8",
+        dataType:'json',
+        data:JSON.stringify(requestData),
+        success:function(jso){
+            if(jso.succeed){
+                alert("注册成功！");
+                window.history.back(-1);
+            }else{
+                alert("注册失败,"+jso.errorInfo);
+            }
+        },
+        error:function(jso){
+            alert("通讯错误");
+        }
+    });
 }

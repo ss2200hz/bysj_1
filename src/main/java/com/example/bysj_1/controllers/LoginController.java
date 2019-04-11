@@ -4,10 +4,7 @@ import com.example.bysj_1.moduls.response.User;
 import com.example.bysj_1.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -67,7 +64,7 @@ public class LoginController {
      * @return
      */
     @RequestMapping(value = "/singup")
-    public String singup(User user) {
+    public String singup() {
         return "/singup";
     }
 
@@ -76,13 +73,10 @@ public class LoginController {
      *
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/inseruser", method = RequestMethod.POST)
-    public String insertUser(@ModelAttribute("user") User user) {
-        if (userService.insertUser(user)) {
-            return "/login";
-        } else {
-            return "/inseruser";
-        }
+    public HashMap insertUser(@RequestBody HashMap data) {
+        return userService.signupUser(data);
     }
 
     @RequestMapping(value = "/exitLogin",method = RequestMethod.GET)

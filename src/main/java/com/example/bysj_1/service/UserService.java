@@ -5,6 +5,7 @@ import com.example.bysj_1.dao.UserMapper;
 import com.example.bysj_1.moduls.response.User;
 import com.example.bysj_1.utils.MyBatisUtils;
 import com.example.bysj_1.utils.StringUtils;
+import com.example.bysj_1.utils.TimeUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -44,21 +45,60 @@ public class UserService {
         return map;
     }
 
-    public boolean insertUser(User user) {
-        String userName = user.getLoginname();
-        //校验是否有重复
-        List<User> list = userMapper.findUserById(userName);
-        if (StringUtils.isEmpty(user.getPassword()) || !CollectionUtils.isEmpty(list)) {
+    /**
+     * 用户注册
+     */
+    public HashMap signupUser(HashMap data) {
+        HashMap map = new HashMap();
+        String loginname = (String) data.get("id");
+        User user = isSchoolTeacher(loginname);
+        if (!isRepeatUser(loginname) && user != null) {
+            String name = user.getName();
+            data.put("name",name);
+            data.put("signupDate",LocalDate.now());
+            try{
+                user.setLoginname(loginname);
+                user.setUserid(loginname);
+                user.setRoleid((String) data.get("roleid"));
+                user.setPassword((String) data.get("password"));
+                user.setSignupDate(LocalDate.now());
+                userMapper.addUser(user);
+                userMapper.updateTeacherInfo(loginname,(String)data.get("phone"), (String) data.get("email"));
+                map.put("succeed",true);
+            }catch (Exception e){
+                map.put("succeed", false);
+                map.put("errorInfo", "unknow error");
+                e.printStackTrace();
+            }
+        }else{
+            map.put("succeed", false);
+            map.put("errorInfo", "用户名重复或不是本校教师，请联系管理员");
+        }
+        return map;
+    }
+
+    /**
+     * 校验是否有重复
+     */
+    private boolean isRepeatUser(String userid) {
+        List<User> list = userMapper.findUserById(userid);
+        if (!CollectionUtils.isEmpty(list) && list.size() > 0) {
+            return true;
+        } else {
             return false;
         }
-        //校验是否本校教师
-        List<String> list1 = userMapper.isUserInTeacher(user);
-        if (CollectionUtils.isEmpty(list1)) {
-            return false;
+    }
+
+    /**
+     * 是否本校教师
+     */
+    private User isSchoolTeacher(String userid) {
+        List<User> list = userMapper.isUserInTeacher(userid);
+        if (!CollectionUtils.isEmpty(list) && list.size() > 0) {
+            return list.get(0);
+        } else {
+            return null;
         }
-        user.setSignupDate(LocalDate.now());
-        userMapper.addUser(user);
-        return true;
     }
 
     /**
@@ -73,6 +113,7 @@ public class UserService {
         if (user != null) {
             result.put("username", user.getName());
             result.put("idCard", user.getLoginname());
+            result.put("password", user.getPassword());
             result.put("roleid", user.getRoleid());
             List<String> classNames = userMapper.getTeacherClass(userId);
             result.put("className", StringUtils.List2String(classNames));
@@ -89,23 +130,23 @@ public class UserService {
     /**
      * 修改我的信息
      */
-    public HashMap changeUserInfo(HashMap data){
+    public HashMap changeUserInfo(HashMap data) {
         String id = (String) data.get("id");
         HashMap map = new HashMap();
-        if(StringUtils.isNotEmpty(id)){
+        if (StringUtils.isNotEmpty(id)) {
             String phone = (String) data.get("phone");
             String email = (String) data.get("email");
-            try{
-                userMapper.updateTeacherInfo(id,phone,email);
-                map.put("succeed",true);
-            }catch (Exception e){
-                map.put("succeed",false);
-                map.put("errorInfo","unknow error");
+            try {
+                userMapper.updateTeacherInfo(id, phone, email);
+                map.put("succeed", true);
+            } catch (Exception e) {
+                map.put("succeed", false);
+                map.put("errorInfo", "unknow error");
                 e.printStackTrace();
             }
-        }else{
-            map.put("succeed",false);
-            map.put("errorInfo","unknow error");
+        } else {
+            map.put("succeed", false);
+            map.put("errorInfo", "unknow error");
         }
         return map;
     }
@@ -113,7 +154,7 @@ public class UserService {
     /**
      * 获取用户列表页数
      */
-    public HashMap getUerListNum(int pageSize){
+    public HashMap getUerListNum(int pageSize) {
         HashMap map = new HashMap();
         int total = classMapper.getClassNum();//总记录数
         int pageNum;//总页数
@@ -129,14 +170,86 @@ public class UserService {
     /**
      * 获取用户列表
      */
-    public HashMap getUerList(int pageNo, int pageSize){
+    public HashMap getUerList(int pageNo, int pageSize) {
         HashMap map = new HashMap();
         int min = 1;
         if (pageNo > 0) {
             min = (pageNo - 1) * pageSize;
         }
-        List<HashMap<String,Object>> list = userMapper.getUserList(min,pageSize);
+        List<HashMap<String, Object>> list = userMapper.getUserList(min, pageSize);
+        for (HashMap hashMap : list) {
+            String id = (String) hashMap.get("id");
+            User user = userMapper.getUserInfoById(id);
+            if (user != null) {
+                hashMap.put("inductDate", user.getSignupDate());
+            }
+        }
         map.put("resultList", list);
+        return map;
+    }
+
+    /**
+     * 删除用户
+     */
+    public HashMap deleteUser(HashMap data) {
+        HashMap<String, Object> map = new HashMap<>();
+        boolean succeed = true;
+        List<String> idList = (List) data.get("dataList");
+        List<String> errorList = new ArrayList();
+        if (!CollectionUtils.isEmpty(idList) && idList.size() > 0) {
+            for (String id : idList) {
+                try {
+                    userMapper.deleteUser(id);
+                } catch (Exception e) {
+                    succeed = false;
+                    errorList.add(id);
+                    map.put("errorInfo", "unknow error");
+                    e.printStackTrace();
+                }
+            }
+        }
+        map.put("succeed", succeed);
+        map.put("errorList", errorList);
+        return map;
+    }
+
+    /**
+     * 新增用户
+     */
+    public HashMap addUser(HashMap data) {
+        HashMap<String, Object> map = new HashMap<>();
+        try {
+            userMapper.addUserByData(data);
+            User user = new User();
+            user.setLoginname((String) data.get("id"));
+            user.setPassword((String) data.get("password"));
+            user.setName((String) data.get("name"));
+            user.setRoleid((String) data.get("roleid"));
+            user.setSignupDate(TimeUtils.String2Date((String) data.get("signupDate")));
+            userMapper.addUser(user);
+            map.put("succeed", true);
+        } catch (Exception e) {
+            map.put("succeed", false);
+            map.put("errorInfo", "unknow error");
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    /**
+     * 修改用户
+     */
+    public HashMap edituser(HashMap data) {
+        HashMap<String, Object> map = new HashMap<>();
+        try {
+            userMapper.updateUser(data);
+            userMapper.updateTeacherInfoByData(data);
+            map.put("succeed", true);
+        } catch (Exception e) {
+            map.put("succeed", false);
+            map.put("errorInfo", "unknow error");
+            e.printStackTrace();
+        }
         return map;
     }
 }

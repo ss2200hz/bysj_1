@@ -40,7 +40,7 @@ public class User {
     /**
      * 注册时间
      */
-    @DateTimeFormat(pattern = "yyyy-mm-dd hh24:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private LocalDate signupDate;
 
     public String getUserid() {

@@ -21,7 +21,7 @@ function showDiv(str){
     if(str == 'myInfo'){
         $("#"+str).load("/"+str);
     }else if(str == 'userInfo'){
-
+        $("#"+str).load("/userInfo")
     }else if(str == 'labInfo'){
         $("#"+str).load("/laboratory/labInfo")
     }else if(str == 'classInfo'){

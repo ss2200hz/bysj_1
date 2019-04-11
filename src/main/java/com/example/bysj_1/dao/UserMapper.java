@@ -1,10 +1,7 @@
 package com.example.bysj_1.dao;
 
 import com.example.bysj_1.moduls.response.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -16,20 +13,13 @@ public interface UserMapper {
     /**
      * 新增角色
      */
-    @Insert("insert into user_ " +
-            "(loginname," +
+    @Insert("insert into user_" +
+            " (loginname," +
             " password," +
             " name," +
             " roleid," +
-            " email," +
-            " phone)" +
-            " values (" +
-            " #{loginname}," +
-            " #{password}," +
-            " #{name}," +
-            " #{roleid}," +
-            " #{email}," +
-            " #{phone})")
+            " signup_date)" +
+            " values (#{userid},#{password},#{name},#{roleid},#{signupDate})")
     void addUser(User user);
 
     /**
@@ -49,10 +39,13 @@ public interface UserMapper {
      * 是否为本校教师
      */
     @Select(" select" +
-            " idcard" +
+            " idcard as loginname," +
+            " name as name," +
+            " phone as phone," +
+            " email as email " +
             " from teacher" +
             " where idcard=#{loginname}")
-    List<String> isUserInTeacher(User user);
+    List<User> isUserInTeacher(@Param("loginname") String userid);
 
     /**
      * 从教师表中根据id查找用户信息
@@ -61,6 +54,7 @@ public interface UserMapper {
      */
     @Select(" select " +
             " a.idcard as loginname," +
+            " b.password as password," +
             " a.name as name," +
             " b.roleid as roleid," +
             " a.phone as phone," +
@@ -81,17 +75,6 @@ public interface UserMapper {
             " and b.user_id = c.loginname" +
             " and c.loginname = #{idcard}")
     List<String> getTeacherClass(@Param("idcard")String userId);
-
-    /**
-     * 修改用户信息
-     */
-    @Update("update user_" +
-            " set " +
-            " name = #{user.name}," +
-            " roleid = ${user.roleid}," +
-            " signup_date = #{user.signupDate}" +
-            " where loginname = #{user.loginname}")
-    void updateUserInfo(Map user);
 
     /**
      * 更新教师表信息
@@ -123,4 +106,43 @@ public interface UserMapper {
             " limit #{min},#{total}")
     List<HashMap<String,Object>> getUserList(@Param("min") int min, @Param("total") int total);
 
+    /**
+     * 删除用户
+     */
+    @Delete("delete from user_" +
+            " where loginname = #{id}")
+    void deleteUser(@Param("id")String id);
+
+    /**
+     * 新增用户
+     */
+    @Insert("insert into teacher" +
+            "(idcard," +
+            " name," +
+            " phone," +
+            " email," +
+            " induct_date)" +
+            " values (#{data.id},#{data.name},#{data.phone},#{data.email},#{data.inductDate})")
+    void addUserByData(@Param("data") HashMap data);
+
+    /**
+     * 更新用户信息
+     */
+    @Update("update user_" +
+            " set" +
+            " name = #{data.name}," +
+            " roleid = #{data.roleid}" +
+            " where loginname = #{data.id}")
+    void updateUser(@Param("data")HashMap data);
+
+    /**
+     * 更新教师表信息
+     */
+    @Update("update teacher" +
+            " set " +
+            " phone = #{data.phone}," +
+            " email = #{data.email}," +
+            " induct_date = #{data.inductDate}" +
+            " where idcard = #{data.id}")
+    void updateTeacherInfoByData(@Param("data")HashMap data);
 }

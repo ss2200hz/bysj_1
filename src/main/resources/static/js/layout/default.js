@@ -18,6 +18,13 @@ $(function(){
         });
 })
 
+$(document).ready(function(){
+$('#checkAll').change(function (){
+    $('input[type="checkbox"]').each(function(){
+        $(this).prop("checked",$('#checkAll').prop('checked'));
+    })
+})
+})
 
 
 //$(function (){

@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout/default">
 <head>
-    <title>首页</title>
+    <title>用户信息</title>
     <script type="text/javascript" th:src="@{/js/userinfo/userinfo.js}"></script>
 </head>
 <body>
@@ -11,15 +11,26 @@
     <input type="hidden" id="roleid" th:value="${roleid}"/>
     <script type="text/javascript">
         window.onload = init();
+
     </script>
+    <div id="page">
+        <div class="row">
+            <div class="col m1">
+                <a class="btn waves-effect waves-light" onclick="doDelete()">删除</a>
+            </div>
+            <div class="col m1">
+                <a class="btn waves-effect waves-light" onclick="doEdit()">新增</a>
+            </div>
+        </div>
     <table class="bordered">
         <thead>
         <tr>
-            <th></th>
+            <th><input type="checkbox" id="checkAll"></th>
             <th>工号</th>
             <th>姓名</th>
             <th>职务</th>
-            <th>注册时间</th>
+            <th>注册日期</th>
+            <th>入职日期</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -27,10 +38,12 @@
     </table>
     <div style="position:fixed;left:0;bottom:0">
         <ul class="pagination" id="pagingDiv">
-            <li id="lastPageBtn" class="disabled"><a onclick="lastPage()"><i class="material-icons">chevron_left</i></a></li>
+            <li id="lastPageBtn" class="disabled"><a onclick="lastPage()"><i class="material-icons">chevron_left</i></a>
+            </li>
             <li class="waves-effect active" id="li_1"><a onclick="getPageList(1)">1</a></li>
         </ul>
     </div>
+</div>
 </div>
 </body>
 </html>
