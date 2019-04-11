@@ -21,7 +21,7 @@ public class ClassService {
     /**
      * 获得课程信息数量
      */
-    public HashMap getClassNum(int pageSize){
+    public HashMap getClassNum(int pageSize) {
         HashMap map = new HashMap();
         int total = classMapper.getClassNum();//总记录数
         int pageNum;//总页数
@@ -30,7 +30,7 @@ public class ClassService {
         } else {
             pageNum = total / pageSize + 1;
         }
-        map.put("pageNum",pageNum);
+        map.put("pageNum", pageNum);
         return map;
     }
 
@@ -47,11 +47,11 @@ public class ClassService {
         if (!CollectionUtils.isEmpty(classList) && classList.size() > 0) {
             for (HashMap<String, Object> hashMap : classList) {
                 String classNo = (String) hashMap.get("classNo");
-                List<HashMap<String,String>> teacherList = classMapper.getTeacherByClassNo(classNo);
+                List<HashMap<String, String>> teacherList = classMapper.getTeacherByClassNo(classNo);
                 if (!CollectionUtils.isEmpty(teacherList) && teacherList.size() > 0) {
                     List<String> nameList = new ArrayList();
                     List<String> idList = new ArrayList();
-                    for(HashMap teacher : teacherList){
+                    for (HashMap teacher : teacherList) {
                         String name = (String) teacher.get("name");
                         nameList.add(name);
                         idList.add((String) teacher.get("teacherId"));
@@ -70,24 +70,24 @@ public class ClassService {
     /**
      * 按条件查询课程信息
      */
-    public HashMap getClassListByCondition(HashMap data){
+    public HashMap getClassListByCondition(HashMap data) {
         HashMap map = new HashMap();
-        List<HashMap<String,Object>> resultList = classMapper.getClassListByCondition(data);
-        map.put("resultList",resultList);
+        List<HashMap<String, Object>> resultList = classMapper.getClassListByCondition(data);
+        map.put("resultList", resultList);
         return map;
     }
 
     /**
      * 删除课程
      */
-    public HashMap deleteClass(String classNo){
+    public HashMap deleteClass(String classNo) {
         HashMap map = new HashMap();
-        try{
+        try {
             classMapper.deleteClassByClassNo(classNo);
-            map.put("succeed",true);
-        }catch (Exception e){
-            map.put("succeed",false);
-            map.put("errorInfo","unknow error");
+            map.put("succeed", true);
+        } catch (Exception e) {
+            map.put("succeed", false);
+            map.put("errorInfo", "unknow error");
             e.printStackTrace();
         }
         return map;
@@ -96,17 +96,17 @@ public class ClassService {
     /**
      * 加入课程
      */
-    public HashMap joinClass(HashMap data){
+    public HashMap joinClass(HashMap data) {
         HashMap map = new HashMap();
         String userid = (String) data.get("userid");
         String classNo = (String) data.get("classNo");
         String uuid = UUID.randomUUID().toString();
-        try{
-            classMapper.joinClass(uuid,classNo,userid);
-            map.put("succeed",true);
-        }catch (Exception e){
-            map.put("succeed",false);
-            map.put("errorInfo","unknow error");
+        try {
+            classMapper.joinClass(uuid, classNo, userid);
+            map.put("succeed", true);
+        } catch (Exception e) {
+            map.put("succeed", false);
+            map.put("errorInfo", "unknow error");
             e.printStackTrace();
         }
         return map;
@@ -115,18 +115,28 @@ public class ClassService {
     /**
      * 删除课程
      */
-    public HashMap exitClass(HashMap data){
+    public HashMap exitClass(HashMap data) {
         HashMap map = new HashMap();
         String userid = (String) data.get("userid");
         String classNo = (String) data.get("classNo");
-        try{
-            classMapper.exitClass(classNo,userid);
-            map.put("succeed",true);
-        }catch (Exception e){
-            map.put("succeed",false);
-            map.put("errorInfo","unknow error");
+        try {
+            classMapper.exitClass(classNo, userid);
+            map.put("succeed", true);
+        } catch (Exception e) {
+            map.put("succeed", false);
+            map.put("errorInfo", "unknow error");
             e.printStackTrace();
         }
+        return map;
+    }
+
+    /**
+     * 查询某教师的所有课程
+     */
+    public HashMap getClassByUserId(String userid) {
+        HashMap map = new HashMap();
+        List<HashMap<String, String>> list = classMapper.getClassListByTeacher(userid);
+        map.put("resultList",list);
         return map;
     }
 }

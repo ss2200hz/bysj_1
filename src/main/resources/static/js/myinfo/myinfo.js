@@ -1,3 +1,4 @@
+var userid;
 //获取用户信息
 function getUserInfo(){
     $.ajax({
@@ -6,6 +7,13 @@ function getUserInfo(){
             dataType:'json',
             success:function(jso){
                 if(!jso.error){
+                    var roleid = jso.roleid;
+                    userid = jso.idCard;
+                    if(roleid=='1'){
+                        initClassList(userid);
+                    }else{
+                        $('#minemessages').hide();
+                    }
                     showTbDiv(jso);
                 }else{
                     alert("通讯错误！"+jso.errorInfo);
@@ -90,4 +98,63 @@ function save(){
             alert("通讯错误");
         }
     });
+}
+
+//加载课程下拉列表
+function initClassList(id){
+    $.ajax({
+        url:'/class/classListByUser',
+        type:'get',
+        data:{id:id},
+        success:function(jso){
+            var list = jso.resultList;
+            for(var i=0;i<list.length;i++){
+                var data = list[i];
+                var html = '<option value="'+data.classNo+'">'+data.className+'</option>'
+                $('#classList').append(html);
+            }
+        },
+        error:function(){
+            alert("通讯错误");
+        }
+    });
+}
+
+//自动预约实验室
+function autoAppointLab(){
+    var appointDate = $('#appointDate').val();
+    var startTime = $('#startTime').val();
+    var endTime = $('#endTime').val();
+    var classNo = $('#classList').val();
+    var personNum = $('#personNum').val();
+    if(isEmpty(appointDate)||isEmpty(startTime)||isEmpty(endTime)){
+        alert("请选择预约的日期和时间");
+        return;
+    }
+    if(isEmpty(classNo)){
+       alert("请选择课程");
+       return;
+    }
+    if(isEmpty(personNum)){
+        alert("请输入人数");
+        return;
+    }
+    var requestData = {userid:userid,appointDate:appointDate,startTime:startTime,endTime:endTime,classNo:classNo,personNum:personNum};
+    $.ajax({
+        url:'/laboratory/autoAppointed',
+        type:'post',
+        contentType: "application/json;charset=UTF-8",
+        dataType:'json',
+        data:JSON.stringify(requestData),
+        success:function(jso){
+            if(jso.succeed){
+                alert("预约成功，您预约的实验室是："+jso.labNo+','+jso.labName);
+            }else{
+                alert("预约失败，"+errorInfo);
+            }
+        },
+        error:function(){
+            alert("通讯错误");
+        }
+    })
 }

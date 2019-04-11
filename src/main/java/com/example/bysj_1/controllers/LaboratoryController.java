@@ -203,4 +203,13 @@ public class LaboratoryController {
         }
         return laboratoryService.setnotoverlabAppointment(dataList);
     }
+
+    /**
+     * 自动预约实验室
+     */
+    @ResponseBody
+    @RequestMapping(value = "/autoAppointed",method = RequestMethod.POST)
+    public HashMap autoAppointLab(@RequestBody HashMap data){
+        return laboratoryService.autoAppointLab(data);
+    }
 }

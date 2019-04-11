@@ -87,7 +87,7 @@ public class UserService {
     }
 
     /**
-     * 修改用户信息
+     * 修改我的信息
      */
     public HashMap changeUserInfo(HashMap data){
         String id = (String) data.get("id");
@@ -107,6 +107,36 @@ public class UserService {
             map.put("succeed",false);
             map.put("errorInfo","unknow error");
         }
+        return map;
+    }
+
+    /**
+     * 获取用户列表页数
+     */
+    public HashMap getUerListNum(int pageSize){
+        HashMap map = new HashMap();
+        int total = classMapper.getClassNum();//总记录数
+        int pageNum;//总页数
+        if (total % pageSize == 0) {
+            pageNum = total / pageSize;
+        } else {
+            pageNum = total / pageSize + 1;
+        }
+        map.put("pageNum", pageNum);
+        return map;
+    }
+
+    /**
+     * 获取用户列表
+     */
+    public HashMap getUerList(int pageNo, int pageSize){
+        HashMap map = new HashMap();
+        int min = 1;
+        if (pageNo > 0) {
+            min = (pageNo - 1) * pageSize;
+        }
+        List<HashMap<String,Object>> list = userMapper.getUserList(min,pageSize);
+        map.put("resultList", list);
         return map;
     }
 }

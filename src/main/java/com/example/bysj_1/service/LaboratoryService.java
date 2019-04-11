@@ -63,9 +63,6 @@ public class LaboratoryService {
 
     /**
      * 预约实验室
-     *
-     * @param data
-     * @return
      */
     public HashMap appointed(HashMap data) {
         HashMap result = new HashMap();
@@ -78,7 +75,7 @@ public class LaboratoryService {
             LocalDate appointDate = TimeUtils.String2Date((String) data.get("appointDate"));
             LocalDateTime startDateTime = LocalDateTime.of(appointDate, timesMap.get(start + "_start_time").toLocalTime());
             LocalDateTime endDateTime = LocalDateTime.of(appointDate, timesMap.get(end + "_end_time").toLocalTime());
-            if (this.isLabBeAppointed(labNo, startDateTime, endDateTime)) {
+            if (this.isLabCanBeAppointed(labNo, startDateTime, endDateTime)) {
                 LabAppointment labAppointment = new LabAppointment();
                 labAppointment.setId(UUID.randomUUID().toString());
                 labAppointment.setLaboratoryNo(labNo);
@@ -103,7 +100,7 @@ public class LaboratoryService {
      * @param labNo
      * @return
      */
-    public boolean isLabBeAppointed(String labNo, LocalDateTime start, LocalDateTime end) {
+    public boolean isLabCanBeAppointed(String labNo, LocalDateTime start, LocalDateTime end) {
         if (start == null || end == null) {
             throw new RuntimeException("请指定非空的时间段！");
         }
@@ -223,14 +220,14 @@ public class LaboratoryService {
     public HashMap deleteLabAppointHisByLabNos(List<String> dataList) {
         HashMap map = new HashMap();
         if (!CollectionUtils.isEmpty(dataList) && dataList.size() > 0) {
-            for(String appointmentId : dataList){
-                try{
+            for (String appointmentId : dataList) {
+                try {
                     laboratoryMapper.deleteLabAppointHis(appointmentId);
-                    map.put("succeed",true);
-                }catch (Exception e){
+                    map.put("succeed", true);
+                } catch (Exception e) {
                     e.printStackTrace();
-                    map.put("succeed",false);
-                    map.put("errorInfo","unknow error");
+                    map.put("succeed", false);
+                    map.put("errorInfo", "unknow error");
                 }
             }
         }
@@ -240,17 +237,17 @@ public class LaboratoryService {
     /**
      * 退回预约
      */
-    public HashMap backLabAppointment(List<String> dataList){
+    public HashMap backLabAppointment(List<String> dataList) {
         HashMap map = new HashMap();
         if (!CollectionUtils.isEmpty(dataList) && dataList.size() > 0) {
-            for(String appointmentId : dataList){
-                try{
-                    laboratoryMapper.changeLabAppointState(appointmentId,"2");
-                    map.put("succeed",true);
-                }catch (Exception e){
+            for (String appointmentId : dataList) {
+                try {
+                    laboratoryMapper.changeLabAppointState(appointmentId, "2");
+                    map.put("succeed", true);
+                } catch (Exception e) {
                     e.printStackTrace();
-                    map.put("succeed",false);
-                    map.put("errorInfo","unknow error");
+                    map.put("succeed", false);
+                    map.put("errorInfo", "unknow error");
                 }
             }
         }
@@ -260,17 +257,17 @@ public class LaboratoryService {
     /**
      * 设为已完成
      */
-    public HashMap setoverLabAppointment(List<String> dataList){
+    public HashMap setoverLabAppointment(List<String> dataList) {
         HashMap map = new HashMap();
         if (!CollectionUtils.isEmpty(dataList) && dataList.size() > 0) {
-            for(String appointmentId : dataList){
-                try{
-                    laboratoryMapper.changeLabAppointState(appointmentId,"1");
-                    map.put("succeed",true);
-                }catch (Exception e){
+            for (String appointmentId : dataList) {
+                try {
+                    laboratoryMapper.changeLabAppointState(appointmentId, "1");
+                    map.put("succeed", true);
+                } catch (Exception e) {
                     e.printStackTrace();
-                    map.put("succeed",false);
-                    map.put("errorInfo","unknow error");
+                    map.put("succeed", false);
+                    map.put("errorInfo", "unknow error");
                 }
             }
         }
@@ -280,20 +277,71 @@ public class LaboratoryService {
     /**
      * 设为已完成
      */
-    public HashMap setnotoverlabAppointment(List<String> dataList){
+    public HashMap setnotoverlabAppointment(List<String> dataList) {
         HashMap map = new HashMap();
         if (!CollectionUtils.isEmpty(dataList) && dataList.size() > 0) {
-            for(String appointmentId : dataList){
-                try{
-                    laboratoryMapper.changeLabAppointState(appointmentId,"0");
-                    map.put("succeed",true);
-                }catch (Exception e){
+            for (String appointmentId : dataList) {
+                try {
+                    laboratoryMapper.changeLabAppointState(appointmentId, "0");
+                    map.put("succeed", true);
+                } catch (Exception e) {
                     e.printStackTrace();
-                    map.put("succeed",false);
-                    map.put("errorInfo","unknow error");
+                    map.put("succeed", false);
+                    map.put("errorInfo", "unknow error");
                 }
             }
         }
         return map;
+    }
+
+    /**
+     * 自动预约实验室
+     */
+    public HashMap autoAppointLab(HashMap data) {
+        //返回结果
+        HashMap<String, Object> resultMap = new HashMap();
+        resultMap.put("succeed", false);
+        resultMap.put("errorInfo","未找到符合条件的实验室");
+        //实验室查询条件
+        HashMap<String, Object> conditionMap = new HashMap();
+        String classNo = (String) data.get("classNo");
+        String labType = classMapper.getClassTypeById(classNo);
+        conditionMap.put("laboratoryType", labType);
+        conditionMap.put("personNum", data.get("personNum"));
+        //符合条件的所有实验室
+        List<Laboratory> labList = laboratoryMapper.getLaboratoryByCondition(conditionMap);
+        if (!CollectionUtils.isEmpty(labList) && labList.size() > 0) {
+            String start = (String) data.get("startTime");
+            String end = (String) data.get("endTime");
+            String schoolNo = SpringUtils.getInfoByProp("school-cfg.propties", "school_no");
+            Map<String, Time> timesMap = classMapper.getClasstime(schoolNo);
+            LocalDate appointDate = TimeUtils.String2Date((String) data.get("appointDate"));
+            LocalDateTime startDateTime = LocalDateTime.of(appointDate, timesMap.get(start + "_start_time").toLocalTime());
+            LocalDateTime endDateTime = LocalDateTime.of(appointDate, timesMap.get(end + "_end_time").toLocalTime());
+            for (Laboratory laboratory : labList) {
+                //如果可预约
+                if (this.isLabCanBeAppointed(laboratory.getLaboratoryNo(), startDateTime, endDateTime)) {
+                    LabAppointment labAppointment = new LabAppointment();
+                    labAppointment.setId(UUID.randomUUID().toString());
+                    labAppointment.setLaboratoryNo(laboratory.getLaboratoryNo());
+                    labAppointment.setAppointedUser((String) data.get("userid"));
+                    labAppointment.setAppointedStartTime(startDateTime);
+                    labAppointment.setAppointedEndTime(endDateTime);
+                    try {
+                        laboratoryMapper.appointLab(labAppointment);
+                        resultMap.put("succeed", true);
+                        resultMap.put("labNo",laboratory.getLaboratoryNo());
+                        resultMap.put("labName",laboratory.getLaboratoryName());
+                        return resultMap;
+                    }catch (Exception e){
+                        resultMap.put("succeed", false);
+                        resultMap.put("errorInfo","unknow error");
+                        e.printStackTrace();
+                        return resultMap;
+                    }
+                }
+            }
+        }
+        return resultMap;
     }
 }

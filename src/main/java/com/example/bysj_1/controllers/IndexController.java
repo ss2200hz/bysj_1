@@ -18,7 +18,7 @@ public class IndexController {
     private UserService userService = new UserService();
 
     /**
-     * 用户信息页面
+     * 我的信息页面
      * @return
      */
     @RequestMapping("/myInfo")
@@ -27,7 +27,7 @@ public class IndexController {
     }
 
     /**
-     * 获取用户信息
+     * 获取我的信息
      * @param request
      * @return
      */
@@ -48,7 +48,7 @@ public class IndexController {
     }
 
     /**
-     * 修改用户信息
+     * 修改我的信息
      */
     @ResponseBody
     @RequestMapping(value = "/editUserInfo",method = RequestMethod.PUT)
@@ -60,5 +60,34 @@ public class IndexController {
         }
         data.put("id",user.getLoginname());
         return userService.changeUserInfo(data);
+    }
+
+    /**
+     * 跳转用户信息页面
+     */
+    @RequestMapping("/userInfo")
+    public String toUserInfoPage(HttpServletRequest request,Model model){
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("roleid",user.getRoleid());
+        return "/userinfo/userinfo";
+    }
+
+    /**
+     * 获取用户列表页数
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getUserListNum", method = RequestMethod.GET)
+    public HashMap getUerListNum(int pageSize){
+        return userService.getUerListNum(pageSize);
+    }
+
+    /**
+     * 获取用户列表
+     */
+    @ResponseBody
+    @RequestMapping(value = "getUserList", method = RequestMethod.GET)
+    public HashMap getUerList(int pageNo, int pageSize){
+        return userService.getUerList(pageNo,pageSize);
     }
 }

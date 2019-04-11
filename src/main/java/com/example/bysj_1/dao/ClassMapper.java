@@ -15,14 +15,21 @@ import java.util.Map;
 public interface ClassMapper {
     /**
      * 根据课程id查找课程名称
-     * @param classNo
-     * @return
      */
     @Select(" select" +
             " class_name as className" +
             " from class" +
             " where class_no = #{classNo}")
     String getClassNameById(@Param("classNo") String classNo);
+
+    /**
+     * 根据课程id查找课程类型
+     */
+    @Select(" select" +
+            " lab_type as labType" +
+            " from class" +
+            " where class_no = #{classNo}")
+    String getClassTypeById(@Param("classNo") String classNo);
 
     /**
      * 课程时间表
@@ -107,4 +114,15 @@ public interface ClassMapper {
             " where class_id=#{classNo}" +
             " and user_id=#{userid}")
     void exitClass(@Param("classNo")String classNo,@Param("userid")String userid);
+
+    /**
+     * 查询某教师的所有课程
+     */
+    @Select("select" +
+            " a.class_id as classNo," +
+            " b.class_name as className" +
+            " from class_teacher as a,class as b" +
+            " where a.class_id = b.class_no" +
+            " and a.user_id=#{userid}")
+    List<HashMap<String,String>> getClassListByTeacher(@Param("userid")String id);
 }

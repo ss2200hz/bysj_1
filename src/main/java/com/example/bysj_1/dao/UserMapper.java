@@ -103,4 +103,24 @@ public interface UserMapper {
             " where idcard = #{id}")
     void updateTeacherInfo(@Param("id") String id,@Param("phone")String phone,@Param("email")String email);
 
+    /**
+     * 获取用户列表页数
+     */
+    @Select("select" +
+            " count(*) from user_")
+    int getUserListNum();
+
+    /**
+     * 获取用户列表
+     */
+    @Select("select " +
+            " loginname as id," +
+            " name as name," +
+            " roleid as roleid," +
+            " signup_date as signupDate" +
+            " from user_" +
+            " order by loginname" +
+            " limit #{min},#{total}")
+    List<HashMap<String,Object>> getUserList(@Param("min") int min, @Param("total") int total);
+
 }

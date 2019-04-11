@@ -83,4 +83,13 @@ public class ClassController {
     public HashMap exitClass(@RequestBody HashMap data){
         return classService.exitClass(data);
     }
+
+    /**
+     * 查询某教师的所有课程
+     */
+    @ResponseBody
+    @RequestMapping(value = "/classListByUser",method = RequestMethod.GET)
+    public HashMap getClassByUserId(@RequestParam("id") String userid) {
+        return classService.getClassByUserId(userid);
+    }
 }

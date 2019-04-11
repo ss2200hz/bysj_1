@@ -3,28 +3,27 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout/default">
 <head>
-    <title>实验室信息</title>
-    <script type="text/javascript" th:src="@{/js/laboratory/laboratory.js}"></script>
+    <title>首页</title>
+    <script type="text/javascript" th:src="@{/js/userinfo/userinfo.js}"></script>
 </head>
 <body>
 <div layout:fragment="content">
+    <input type="hidden" id="roleid" th:value="${roleid}"/>
     <script type="text/javascript">
         window.onload = init();
     </script>
-    <!--<button onclick="getUserInfo()">asdaseqwe</button>-->
     <table class="bordered">
         <thead>
         <tr>
-            <th>实验室编号</th>
-            <th>实验室名称</th>
-            <th>实验室类型</th>
-            <th>最大可容纳人数</th>
-            <th>上次维护日期</th>
-            <th>已使用次数</th>
+            <th></th>
+            <th>工号</th>
+            <th>姓名</th>
+            <th>职务</th>
+            <th>注册时间</th>
             <th>操作</th>
         </tr>
         </thead>
-        <tbody id="labList"></tbody>
+        <tbody id="userList"></tbody>
     </table>
     <div style="position:fixed;left:0;bottom:0">
         <ul class="pagination" id="pagingDiv">

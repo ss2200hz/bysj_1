@@ -162,4 +162,19 @@ public interface LaboratoryMapper {
             " set appointed_state = #{state}" +
             " where appointed_id = #{id}")
     void changeLabAppointState(@Param("id")String id,@Param("state")String state);
+    
+    @Select("select " +
+            " laboratory_no as laboratoryNo," +
+            " laboratory_name as laboratoryName," +
+            " laboratory_type as laboratoryType," +
+            " person_num as personNum," +
+            " last_maintenance_date as lastMaintenanceDate," +
+            " use_times as useTimes," +
+            " if(ifnull(laboratory_state,'Y')='','Y',laboratory_state) as laboratoryState " +
+            " from laboratory" +
+            " where laboratory_type=#{condition.laboratoryType}" +
+            " and person_num>=#{condition.personNum}" +
+            " and if(ifnull(laboratory_state,'Y')='','Y',laboratory_state) = 'Y'" +
+            " order by last_maintenance_date desc,use_times")
+    List<Laboratory> getLaboratoryByCondition(@Param("condition")HashMap data);
 }
